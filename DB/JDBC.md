@@ -110,8 +110,6 @@ ResultSet의 메소드
 
 getXXX("") : 로우 값을 지정한 XXX 타입으로 가져온다.
 
-https://hyeonstorage.tistory.com/110 (질문!)
-
 next() : 리턴값 boolean. 다음 행으로 한 행씩 이동한다. 더이상 행이 존재하지 않을 때는 false, 존재할 때는 true return.
 
 
