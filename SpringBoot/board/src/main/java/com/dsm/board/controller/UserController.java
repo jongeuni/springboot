@@ -1,28 +1,28 @@
 package com.dsm.board.controller;
-import com.dsm.board.dao.UserDao;
-import com.dsm.board.dto.UserDto;
+import com.dsm.board.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 //로그인과 회원가입 시
 @Controller
-@RequestMapping("/newJoin")
+@RequestMapping("/board")
 public class UserController {
 
-    private UserDao ud;
+    private UserService ud;
 
     @Autowired
-    public UserController(UserDao ud){ this.ud = ud;}
+    public UserController(UserService ud){ this.ud = ud;}
 
+    // 첫 페이지
+    @GetMapping("/main")
+    public String returnMain(){
+        return "main";
+    }
 
-
-    // 회원가입
-    @GetMapping(value = "info/{id}/{pw}/{name}/{age}/{introduce}")
+    // 회원가입, 생성(insert, create)
+    @PostMapping(value = "info/{id}/{pw}/{name}/{age}/{introduce}") //request body에 넣기
     public String UserInsert(
             @PathVariable("id") String id,
             @PathVariable("pw") String pw,
@@ -34,6 +34,15 @@ public class UserController {
         return "login"; // 로그인 페이지 리턴
     }
 
-    // 우선 디비 만들기
+    // 로그인, 조회(select, read)
+    @GetMapping(value = "loginInfo/{id}/{pw}")
+    @ResponseBody
+    public String UserSelect(@PathVariable("id") String id,
+                             @PathVariable("pw") String pw){
+        //ud.UserSelect;
 
+        return "로그인 완료";
+    }
+
+    // 회원탈퇴, 삭제(delete)
 }

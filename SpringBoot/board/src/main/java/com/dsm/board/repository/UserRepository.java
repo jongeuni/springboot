@@ -1,6 +1,6 @@
-package com.dsm.board.dto;
+package com.dsm.board.repository;
 
-public class UserDto {
+public class UserRepository {
     private String id;
     private String pw;
     private String name;

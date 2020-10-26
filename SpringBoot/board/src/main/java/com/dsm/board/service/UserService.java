@@ -1,11 +1,13 @@
-package com.dsm.board.dao;
-import com.dsm.board.dto.UserDto;
+package com.dsm.board.service;
+import com.dsm.board.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDao {
+@Service
+public class UserService {
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
@@ -14,13 +16,14 @@ public class UserDao {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch(Exception e) {
+            System.out.println("JDBC 에러");
             e.printStackTrace();
         }
     }
     // 드라이버 load
 
-    public List<UserDto> JoinInsert(String id, String pw, String name, int age, String introduce){
-        List<UserDto> userList = new ArrayList<>();
+    public List<UserRepository> JoinInsert(String id, String pw, String name, int age, String introduce){
+        List<UserRepository> userList = new ArrayList<>();
         String url = "jdbc:mysql://localhost/board?serverTimezone=UTC";
         String user = "root";
         String password="0818";
