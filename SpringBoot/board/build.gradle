@@ -14,7 +14,11 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+//	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
+
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.22' //mysql 라비으러리 다운 (어떤라이브러리와의존하는가)
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf') //템플릿 엔진
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
