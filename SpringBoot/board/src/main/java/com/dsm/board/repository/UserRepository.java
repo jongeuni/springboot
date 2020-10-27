@@ -5,7 +5,9 @@ public class UserRepository {
     private String pw;
     private String name;
     private int age;
-    public String introduce;
+    private String introduce;
+    private String idpw=this.id+this.pw;
+    // 로그인 시 확인하기 위해서
 
     public String getId() {
         return id;
@@ -37,5 +39,17 @@ public class UserRepository {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public String getIdpw() {
+        return idpw;
     }
 }
