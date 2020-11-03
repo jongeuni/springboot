@@ -1,12 +1,14 @@
 package com.dsm.board.repository;
 
-public class UserRepository {
+
+public class UserRepository{
     private String id;
     private String pw;
+    public String pwcheack;
     private String name;
     private int age;
     private String introduce;
-    private String idpw=this.id+this.pw;
+
     // 로그인 시 확인하기 위해서
 
     public String getId() {
@@ -47,9 +49,5 @@ public class UserRepository {
 
     public void setIntroduce(String introduce) {
         this.introduce = introduce;
-    }
-
-    public String getIdpw() {
-        return idpw;
     }
 }

@@ -1,5 +1,6 @@
 package com.dsm.board.service;
 import com.dsm.board.repository.UserRepository;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
@@ -21,14 +22,15 @@ public class UserService {
             e.printStackTrace();
         }
     }
+
     // 회원가입, db에 정보 넣기
-    public void JoinInsert(String id, String pw, String name, int age, String introduce){
+    public void JoinInsert(String id, String pw, String name, int age, String introduce) {
         String url = "jdbc:mysql://localhost/board?serverTimezone=UTC";
         String user = "root";
-        String password="0818";
+        String password = "0818";
         String sql = "INSERT INTO user (id, pw, name, age, introduce, idpw) VALUES (?,?,?,?,?,?)";
 
-        try{
+        try {
             conn = DriverManager.getConnection(url, user, password);
             // db에 접속할 수 있도록 해준다. 접속에 필요한 정보인 db url, username, pw를 보내야 한다
             pstmt = conn.prepareStatement(sql);
@@ -36,28 +38,36 @@ public class UserService {
             pstmt.setString(1, id);
             pstmt.setString(2, pw);
             pstmt.setString(3, name);
-            pstmt.setInt(4,age);
+            pstmt.setInt(4, age);
             pstmt.setString(5, introduce);
-            pstmt.setString(6, id+pw);
+            pstmt.setString(6, id + pw);
             pstmt.executeUpdate();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally{
-            try{
-                if(conn!=null){
+        } finally {
+            try {
+                if (conn != null) {
                     conn.close();
                 }
-                if(pstmt!=null){
+                if (pstmt != null) {
                     pstmt.close();
                 }
-                if(rs!=null){
+                if (rs != null) {
                     rs.close();
                 }
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
+    //로그인, 시큐리티 사용 ////////
+    /*
+    public void configure(HttpSecurity http) throws Exception{
+        http.httpBasic()
+                .and()
+                .authorizeRequests();
+    }*/
 
     // 로그인, db에 정보 조회. id와 pw둘 다 맞으면 true 아니면 flase return
     public boolean loginSelect(String id, String pw) {
@@ -96,5 +106,9 @@ public class UserService {
                 e.printStackTrace();
             }
         }
+
         return false;
     }
+
+    // 회원탈퇴
+}

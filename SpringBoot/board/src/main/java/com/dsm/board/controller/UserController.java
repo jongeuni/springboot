@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
+
 //로그인과 회원가입 시
 @Controller
 @RequestMapping("/board")
@@ -24,9 +26,13 @@ public class UserController {
 
     // 회원가입, 생성(insert, create)
     @PostMapping("/join")
+    @ResponseBody
     public String UserInsert(@RequestBody UserRepository userinfo){
-        us.JoinInsert(userinfo.getId(),userinfo.getPw(),userinfo.getName(),userinfo.getAge(), userinfo.getIntroduce());
-        return "login";
+        if(userinfo.pwcheack.equals(userinfo.getPw())){
+            us.JoinInsert(userinfo.getId(),userinfo.getPw(), userinfo.getName(),userinfo.getAge(), userinfo.getIntroduce());
+            return "회원 가입 성공";
+        }
+        return "회원 가입 실패";
     }
     /*
     @PostMapping(value = "info/{id}/{pw}/{name}/{age}/{introduce}") //request body에 넣기
@@ -42,7 +48,7 @@ public class UserController {
     }*/
 
     // 로그인, 조회(select, read)
-    @GetMapping("login")
+    @GetMapping("/login")
     @ResponseBody
     public String UserLogin(@ModelAttribute("id") String id, @ModelAttribute("pw") String pw){
         //ud.UserSelect(id, pw);
