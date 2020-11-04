@@ -30,21 +30,25 @@ public class UserController {
     @ResponseBody
     public String UserInsert(@RequestBody UserRepository userinfo){
         if(userinfo.pwcheack.equals(userinfo.getPw())){
-            us.JoinInsert(userinfo.getId(),userinfo.getPw(), userinfo.getName(),userinfo.getAge(), userinfo.getIntroduce());
-            return "회원 가입 성공";
+            if(us.JoinInsert(userinfo.getId(),userinfo.getPw(), userinfo.getName(),userinfo.getAge(), userinfo.getIntroduce())){ //만약 return 값이 flase면
+                return "회원 가입 성공";
+            } else{
+                return "아이디가 중복됩니다";
+            }
         }
-        return "회원 가입 실패";
+        return "회원 가입 실패 - 패스워드 확인을 다시 해주세요";
     }
 
     // 로그인, 조회(select, read)
     @PostMapping("/login")
     @ResponseBody
-    // @
     public String UserLogin(@RequestBody UserLoginRepository userLoginInfo){
-        //ud.UserSelect(id, pw);
+
         String check = us.loginSelect(userLoginInfo.getId(), userLoginInfo.getPw());
         return check;
-        /*if(us.loginSelect(id, pw)){
+        /*
+        ud.UserSelect(id, pw);
+        if(us.loginSelect(id, pw)){
             return "로그인 완료";
         } else{
             return "로그인 실패";
