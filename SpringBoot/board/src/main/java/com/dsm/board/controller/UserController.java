@@ -39,6 +39,8 @@ public class UserController {
         return "회원 가입 실패 - 패스워드 확인을 다시 해주세요";
     }
 
+    // 로그인, 세션 사용
+
     // 로그인, 조회(select, read)
     @PostMapping("/login")
     @ResponseBody

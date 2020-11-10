@@ -90,6 +90,7 @@ public class UserService {
             } else{
                 return "조회된 id가 없습니다"; // 조회된 데이터 없음 == id가 틀림
             }
+
         } catch (SQLException e) {
             System.out.println("로그인 시 DB 연결 오류");
             e.printStackTrace();
@@ -110,5 +111,10 @@ public class UserService {
         }
         return "false";
     }
+
     // 회원탈퇴
+    public boolean userDelete(){
+
+        return true;
+    }
 }

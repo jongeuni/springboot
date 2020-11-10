@@ -24,6 +24,11 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-jdbc")
 	// jpa 의존성
 
+	compile 'io.jsonwebtoken:jjwt-api:0.10.5'
+	runtime 'io.jsonwebtoken:jjwt-impl:0.10.5'
+			'io.jsonwebtoken:jjwt-jackson:0.10.5'
+	//jwt
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
