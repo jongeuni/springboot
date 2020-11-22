@@ -1,6 +1,7 @@
 package com.dsm.board.controller;
 import com.dsm.board.repository.UserLoginRepository;
 import com.dsm.board.repository.UserRepository;
+import com.dsm.board.service.JwtService;
 import com.dsm.board.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
+import javax.servlet.http.HttpServletRequest;
 
 //로그인과 회원가입 시
 @Controller
@@ -15,9 +17,12 @@ import javax.persistence.EntityManager;
 public class UserController {
 
     private UserService us;
+    //JwtService jwtService;
 
     @Autowired
-    public UserController(UserService us){ this.us = us;}
+    public UserController(UserService us) {
+        this.us = us;
+    }
 
     // 첫 페이지
     @GetMapping("/main")
@@ -46,7 +51,9 @@ public class UserController {
     @ResponseBody
     public String UserLogin(@RequestBody UserLoginRepository userLoginInfo){
 
-        String check = us.loginSelect(userLoginInfo.getId(), userLoginInfo.getPw());
+        //String check = us.loginSelect(userLoginInfo.getId(), userLoginInfo.getPw());
+        String check = us.loginSelect(userLoginInfo);
+
         return check;
         /*
         ud.UserSelect(id, pw);
@@ -57,5 +64,24 @@ public class UserController {
         }*/
     }
 
+    //회원탈퇴
+    @DeleteMapping("/deleteMember")
+    @ResponseBody
+    public String userDelete(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        String pwCheck = request.getHeader("PwCheck"); // 회원탈퇴시 받는 비밀번호
+        JwtService js = new JwtService();
+        String MemberId = js.getIdFromToken(token);
+        us.userDelete(MemberId, pwCheck);
+        //jwtService.getIdFromToken(token);
+        //jwtService.getIdFromToken(token); // 토큰에서 아이디 빼오기
+        return "회원탈퇴 완료, 아직 db는 안했지만";
+    }
+
+
     // 회원탈퇴, 삭제(delete)
+    /*@PostMapping("/deleteMember")
+    public String UserDelete(String ChcekPw, @RequestHeader User) // 토큰과 탈퇴시 입력한 비밀번호를 받음.
+*/
 }
+

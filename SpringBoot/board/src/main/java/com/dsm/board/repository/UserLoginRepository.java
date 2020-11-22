@@ -4,6 +4,12 @@ public class UserLoginRepository {
     private String id;
     private String pw;
 
+    public UserLoginRepository() {}
+    public UserLoginRepository(String id, String pw) {
+        this.id = id;
+        this.pw = pw;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

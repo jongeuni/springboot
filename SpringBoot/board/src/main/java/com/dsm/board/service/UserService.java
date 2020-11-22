@@ -1,7 +1,18 @@
 package com.dsm.board.service;
+import com.dsm.board.repository.UserLoginRepository;
+import io.jsonwebtoken.Header;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+import java.security.Key;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -67,8 +78,8 @@ public class UserService {
     }
 
     // 로그인, db에 정보 조회. id와 pw둘 다 맞으면 true 아니면 flase return
-    public String loginSelect(String id, String pw) {
-        String url = "jdbc:mysql://localhost/board?serverTimezone=UTC";
+    public String loginSelect(UserLoginRepository userLiginInfo) {
+        String url = "jdbc:mysql://localhost:3306/board?serverTimezone=UTC";
         String user = "root";
         String password = "0818";
         String sql = "SELECT * FROM user where (id) like (?)";
@@ -77,12 +88,17 @@ public class UserService {
             // 드라이버 호출, MySQL 서버 연결
             conn = DriverManager.getConnection(url, user, password);
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1,id);
+            pstmt.setString(1,userLiginInfo.getId());
             //pstmt.executeUpdate();
             rs = pstmt.executeQuery(); // 여기서 쿼리 실행
             if(rs.next()){
-                if (rs.getString("pw").equals(pw)) {
-                    return "로그인 완료";
+                if (rs.getString("pw").equals(userLiginInfo.getPw())) {
+                    JwtService jwtService = new JwtService();
+                    String token = jwtService.creatJwt(userLiginInfo);
+                    return token;
+                    //return "로그인 완료";
+
+
                 } else{
                     return "pw가 틀립니다";
                 }
@@ -112,8 +128,17 @@ public class UserService {
         return "false";
     }
 
+
     // 회원탈퇴
-    public boolean userDelete(){
+    public boolean userDelete(String MemberId, String pwCheck){
+        String url = "jdbc:mysql://localhost:3306/board?serverTimezone=UTC";
+        String user = "root";
+        String password = "0818";
+        String sqlCheckId = "SELECT id FROM user where (id) like (?)";
+        String sql = "DELETE * FROM user";
+
+
+
 
         return true;
     }
