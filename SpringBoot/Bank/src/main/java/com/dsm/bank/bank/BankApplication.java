@@ -1,4 +1,4 @@
-package com.DSM.Bank;
+package com.dsm.bank.bank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

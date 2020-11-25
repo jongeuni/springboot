@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import javax.persistence.EntityManager;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.sql.*;
@@ -130,16 +131,51 @@ public class UserService {
 
 
     // 회원탈퇴
-    public boolean userDelete(String MemberId, String pwCheck){
+    public String userDelete(String MemberId, String pwCheck){
         String url = "jdbc:mysql://localhost:3306/board?serverTimezone=UTC";
         String user = "root";
         String password = "0818";
-        String sqlCheckId = "SELECT id FROM user where (id) like (?)";
-        String sql = "DELETE * FROM user";
+        String sqlCheckId = "SELECT * FROM user WHERE (id) like (?)"; //아이디와 맞는 패스워드 찾기
+        String sql = "DELETE FROM user WHERE (pw) = (?)"; //아이디 삭제
+    try{
+        conn=DriverManager.getConnection(url, user, password);
+        pstmt = conn.prepareStatement(sqlCheckId);
+        pstmt.setString(1,MemberId);
+        rs = pstmt.executeQuery();
 
+        if(rs.next()){
+            //System.out.println("아이디="+rs.getString("id")+"비번="+rs.getString("pw"));
+            // id 중복 가능하다는점.
+            if(rs.getString("pw").equals(pwCheck)){
 
-
-
-        return true;
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1,pwCheck);
+                pstmt.executeUpdate();
+                return "회원탈퇴 완료";
+            }else{
+                return "비밀번호가 틀렸습니다.";
+            }
+        }else{
+            return "id가 틀렸는데";
+        }
+    } catch(SQLException e){
+        System.out.println("회원탈퇴 시 DB 연결 오류");
+        e.printStackTrace();
+    } finally{
+        try {
+            if(conn!=null){
+                conn.close();
+            }
+            if(pstmt!=null){
+                pstmt.close();
+            }
+            if(rs!=null){
+                rs.close();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    return "회원 탈퇴 실패";
     }
 }
