@@ -6,11 +6,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.EntityManager;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +55,8 @@ public class UserService {
                     pstmt = conn.prepareStatement(sql); // prepareStatement 객체 생성
                     // Connection 객체의 pre~ 메소드의 매개변수로 sql 문을 보내준다
                     pstmt.setString(1, id);
-                    pstmt.setString(2, pw);
+                    pstmt.setString(2, pwEncrypt(pw)); //비밀번호 암호화
+                    System.out.println("암호화된 비밀번호: "+pwEncrypt(pw));
                     pstmt.setString(3, name);
                     pstmt.setInt(4, age);
                     pstmt.setString(5, introduce);
@@ -60,6 +64,11 @@ public class UserService {
                 }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            System.out.println("비밀번호 암호화 오류");
+            return false;
         } finally {
             try {
                 if (conn != null) {
@@ -177,5 +186,33 @@ public class UserService {
         }
     }
     return "회원 탈퇴 실패";
+    }
+
+    // 비밀번호 암호화 해주는 메소드
+    public String pwEncrypt(String pw) throws NoSuchAlgorithmException {
+        /*String encryptedPasswor;
+        try{
+            MessageDigest md = MessageDigest.getInstance("SHA-256"); //시큐리티인데 사용가능?
+            md.update(pw.getBytes());
+            StringBuilder builder = new StringBuilder();
+            for(byte b:md.digest()){
+                builder.append(String.format("%02x",b));
+            }
+            encryptedPasswor = builder.toString();
+        }catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
+        return encryptedPasswor;*/
+
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(pw.getBytes());
+        StringBuilder builder = new StringBuilder();
+        for(byte b:md.digest()){
+            builder.append(String.format("%02x",b));
+        }
+        return builder.toString();
+
+
     }
 }

@@ -96,10 +96,20 @@ public class UserController {
         return us.userDelete(MemberId, pwCheck);
     }
 
+    @GetMapping("/logout")
+    @ResponseBody
+    public void userLogout(HttpServletRequest httpServletRequest){
+        String authHeader = httpServletRequest.getHeader("Authorization");
 
-    // 회원탈퇴, 삭제(delete)
-    /*@PostMapping("/deleteMember")
-    public String UserDelete(String ChcekPw, @RequestHeader User) // 토큰과 탈퇴시 입력한 비밀번호를 받음.
-*/
+        if(authHeader!=null){ //토큰이 비어있지 않으면
+            // 토큰 삭제
+        } else{
+            System.out.println("토큰 비어있음.");
+        }
+
+        //return login.html; 로그인 페이지 리턴
+    }
+
+
 }
 

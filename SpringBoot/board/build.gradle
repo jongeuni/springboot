@@ -30,8 +30,13 @@ dependencies {
 
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
-
 	//jwt
+
+	compile (group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '2.1.1')
+	compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.61'
+	// BouncyCastle 라이브러리, 암호화에 사용
+
+
 
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
