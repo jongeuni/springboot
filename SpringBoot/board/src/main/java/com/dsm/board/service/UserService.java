@@ -65,10 +65,6 @@ public class UserService {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            System.out.println("비밀번호 암호화 오류");
-            return false;
         } finally {
             try {
                 if (conn != null) {
@@ -102,7 +98,7 @@ public class UserService {
             //pstmt.executeUpdate();
             rs = pstmt.executeQuery(); // 여기서 쿼리 실행
             if(rs.next()){
-                if (rs.getString("pw").equals(userLiginInfo.getPw())) {
+                if (rs.getString("pw").equals(pwEncrypt(userLiginInfo.getPw()))) {
                     JwtService jwtService = new JwtService();
                     String token = jwtService.creatJwt(userLiginInfo);
                     return token;
@@ -155,10 +151,10 @@ public class UserService {
         if(rs.next()){
             //System.out.println("아이디="+rs.getString("id")+"비번="+rs.getString("pw"));
             // id 중복 가능하다는점.
-            if(rs.getString("pw").equals(pwCheck)){
+            if(rs.getString("pw").equals(pwEncrypt(pwCheck))){
 
                 pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1,pwCheck);
+                pstmt.setString(1,pwEncrypt(pwCheck));
                 pstmt.executeUpdate();
                 return "회원탈퇴 완료";
             }else{
@@ -189,8 +185,8 @@ public class UserService {
     }
 
     // 비밀번호 암호화 해주는 메소드
-    public String pwEncrypt(String pw) throws NoSuchAlgorithmException {
-        /*String encryptedPasswor;
+    public String pwEncrypt(String pw)  {
+        String encryptedPasswor="";
         try{
             MessageDigest md = MessageDigest.getInstance("SHA-256"); //시큐리티인데 사용가능?
             md.update(pw.getBytes());
@@ -202,9 +198,21 @@ public class UserService {
         }catch (NoSuchAlgorithmException e){
             e.printStackTrace();
         }
-        return encryptedPasswor;*/
+        return encryptedPasswor;
+
+/*
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(pw.getBytes());
+        StringBuilder builder = new StringBuilder();
+        for(byte b:md.digest()){
+           builder.append(String.format("%02x",b));
+        }
+        return builder.toString();*/
 
 
+
+
+        /*
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(pw.getBytes());
         StringBuilder builder = new StringBuilder();
@@ -212,6 +220,8 @@ public class UserService {
             builder.append(String.format("%02x",b));
         }
         return builder.toString();
+
+         */
 
 
     }

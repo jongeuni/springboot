@@ -67,7 +67,7 @@ public class JwtService {
                 .getBody();
         String id = claims.get("id", String.class);
 
-        //System.out.println("아이디:"+id);
+        System.out.println("아이디:"+id);
         return id;
     }
 
