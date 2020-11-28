@@ -1,22 +1,10 @@
 package com.dsm.board.service;
 import com.dsm.board.repository.UserLoginRepository;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import javax.persistence.EntityManager;
-import javax.xml.bind.DatatypeConverter;
-import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class UserService {
@@ -39,7 +27,7 @@ public class UserService {
         String url = "jdbc:mysql://localhost/board?serverTimezone=UTC";
         String user = "root";
         String password = "0818";
-        String sqlCheckId = "SELECT id FROM user where (id) like (?)";
+        String sqlCheckId = "SELECT id FROM user where (id) like (?) OR (pw) like (?)";
         String sql = "INSERT INTO user (id, pw, name, age, introduce) VALUES (?,?,?,?,?)";
 
         try {
@@ -47,15 +35,17 @@ public class UserService {
                 // db에 접속할 수 있도록 해준다. 접속에 필요한 정보인 db url, username, pw를 보내야 한다
                 pstmt = conn.prepareStatement(sqlCheckId);
                 pstmt.setString(1, id);
+                pstmt.setString(2,pwEncrypt(pw));
                 rs = pstmt.executeQuery();
                 if(rs.next()){
                     rs.close();
-                    return false;
+                    return false; // 중복된 id나 pw가 있을 때
                 } else{
                     pstmt = conn.prepareStatement(sql); // prepareStatement 객체 생성
                     // Connection 객체의 pre~ 메소드의 매개변수로 sql 문을 보내준다
                     pstmt.setString(1, id);
-                    pstmt.setString(2, pwEncrypt(pw)); //비밀번호 암호화
+                    pstmt.setString(2, pwEncrypt(pw)); //비밀번호 암호화  // 비밀번호 중복 처리 안했다.
+                    System.out.println("암호화 전 비밀번호: "+pw);
                     System.out.println("암호화된 비밀번호: "+pwEncrypt(pw));
                     pstmt.setString(3, name);
                     pstmt.setInt(4, age);
@@ -81,6 +71,44 @@ public class UserService {
             }
         }
         return true;
+    }
+
+    // 비밀번호 재설정 먼저 아이디랑 이름값입력받고 일치하면 비밀번호 재설정
+    public String findPw(String id, String name){
+        return "비밀번호 재설정 페이지";
+    }
+    // 비밀번호 재설정
+
+    // 아이디 찾기 return id
+    public String findId(String pw){
+        String url="jdbc:mysql://localhost:3306/board?serverTimezone=UTC";
+        String user="root";
+        String password = "0818";
+        String sql = "SELECT id FROM user WHERE (pw) like (?)";
+        try {
+            conn=DriverManager.getConnection(url,user,password);
+            pstmt=conn.prepareStatement(sql);
+            pstmt.setString(1,pwEncrypt(pw));
+            rs=pstmt.executeQuery();
+            if(rs.next()){
+                return rs.getString("id");
+            } else{
+                System.out.println("암호화된 비밀번호: "+pwEncrypt(pw));
+                return "비밀번호를 잘못 입력";
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            System.out.println("아이디 찾기 db 연결 오류");
+        } finally {
+            try{
+                if(conn!=null) conn.close();
+                if(pstmt!=null) pstmt.close();
+                if(rs!=null) rs.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return "아이디를 찾을 수 없습니다.";
     }
 
     // 로그인, db에 정보 조회. id와 pw둘 다 맞으면 true 아니면 flase return
@@ -134,6 +162,8 @@ public class UserService {
         return "false";
     }
 
+
+    // 비밀번호 재설정 (현재 비밀번호 받아서 일치할 시 변경)
 
     // 회원탈퇴
     public String userDelete(String MemberId, String pwCheck){
@@ -197,6 +227,7 @@ public class UserService {
             encryptedPasswor = builder.toString();
         }catch (NoSuchAlgorithmException e){
             e.printStackTrace();
+            System.out.println("비밀번호 암호화 실패");
         }
         return encryptedPasswor;
 

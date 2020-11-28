@@ -45,6 +45,14 @@ public class UserController {
         return "회원 가입 실패 - 패스워드 확인을 다시 해주세요";
     }
 
+    @PostMapping("/findId")
+    @ResponseBody
+    public String userFindId(@RequestBody String pw){
+
+        System.out.println(us.pwEncrypt(pw));
+        return us.findId(pw);
+    }
+
     // 로그인, 조회(select, read)
     @PostMapping("/login")
     @ResponseBody
