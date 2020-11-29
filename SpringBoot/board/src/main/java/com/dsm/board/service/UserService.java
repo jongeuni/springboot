@@ -111,6 +111,42 @@ public class UserService {
         return "아이디를 찾을 수 없습니다.";
     }
 
+    // 비밀번호 재설정 전 일치하는 계정 확인
+    public Boolean verifyPresenceAccount(String id, String name){
+        String url = "jdbc:mysql://localhost/board?serverTimezone=UTC";
+        String user ="root";
+        String password = "0818";
+        String sql = "SELECT * FROM user WHERE (id) like (?) AND (name) like (?)"; // 아이디와 이름이 일치하는 계정이있는지확인
+
+        try{
+            conn = DriverManager.getConnection(url, user, password);
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2,name);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return true; // 일치하는 계정이 있는 경우
+            } else{
+                System.out.println("일치하는 계정 찾지 못함");
+                return false; // 일치하는 계정이 없는 경우
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (conn != null) conn.close();
+                if (pstmt != null) pstmt.close();
+                if (rs != null) rs.close();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    // 비밀번호 재설정
+
     // 로그인, db에 정보 조회. id와 pw둘 다 맞으면 true 아니면 flase return
     public String loginSelect(UserLoginRepository userLiginInfo) {
         String url = "jdbc:mysql://localhost:3306/board?serverTimezone=UTC";

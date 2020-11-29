@@ -45,6 +45,7 @@ public class UserController {
         return "회원 가입 실패 - 패스워드 확인을 다시 해주세요";
     }
 
+    // 로그인 전 아이디 찾기 (아이디 찾을 비밀번호 입력)
     @PostMapping("/findId")
     @ResponseBody
     public String userFindId(@RequestBody String pw){
@@ -53,11 +54,23 @@ public class UserController {
         return us.findId(pw);
     }
 
+    // 비밀번호 재설정 전 계정 확인
+    @GetMapping("/resetPwBefor")
+    @ResponseBody
+    public String idAndNameCheck(@RequestParam("id") String id, @RequestParam("name") String name){
+        if(us.verifyPresenceAccount(id, name)){
+            JwtService js = new JwtService();
+            String token = js.creatJwt(id);
+            return token; // 일치하는 계정이 있을 때 그 계정 정보를 담은 토큰 리턴
+        } else{
+            return "일치하는 계정을 찾을 수 없습니다.";
+        }
+    }
+
     // 로그인, 조회(select, read)
     @PostMapping("/login")
     @ResponseBody
     public String UserLogin(@RequestBody UserLoginRepository userLoginInfo){
-
 
         //String check = us.loginSelect(userLoginInfo.getId(), userLoginInfo.getPw());
         String check = us.loginSelect(userLoginInfo);
