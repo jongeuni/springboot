@@ -128,7 +128,7 @@ public class UserService {
             if(rs.next()){
                 if (rs.getString("pw").equals(pwEncrypt(userLiginInfo.getPw()))) {
                     JwtService jwtService = new JwtService();
-                    String token = jwtService.creatJwt(userLiginInfo);
+                    String token = jwtService.creatJwt(userLiginInfo.getId());
                     return token;
                     //return "로그인 완료";
 
@@ -161,7 +161,6 @@ public class UserService {
         }
         return "false";
     }
-
 
     // 비밀번호 재설정 (현재 비밀번호 받아서 일치할 시 변경)
 

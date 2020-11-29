@@ -22,7 +22,7 @@ public class JwtService {
     private final Key key = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 
     // 토큰 생성
-    public String creatJwt(final UserLoginRepository userLoginInfo){
+    public String creatJwt(final String id){
 
         //System.out.println(signatureAlgorithm.getJcaName());
         /*
@@ -42,7 +42,7 @@ public class JwtService {
         String token = Jwts.builder()
                 .setHeaderParam("typ","JWT") // alg를 key에서 설정했을 경우 따로 넣어주지 않아도 된다
                 .claim("data", "로그인 검증 토큰") // 토큰에 대한 설명
-                .claim("id",userLoginInfo.getId()) // id
+                .claim("id",id) // id
                 .setExpiration(new Date(System.currentTimeMillis() + (10000 * 60 * 60)))
                 .signWith(signatureAlgorithm, key) // 지정된 알고리즘, 지정된 키를 사용하여 서명하고 JWS 생성
                 .compact(); // 실제 jwt 제작
