@@ -1,11 +1,11 @@
-package com.dsm.board.repository;
+package com.dsm.board.utils.form;
 
-public class UserLoginRepository {
+public class UserLoginForm {
     private String id;
     private String pw;
 
-    public UserLoginRepository() {}
-    public UserLoginRepository(String id, String pw) {
+    public UserLoginForm() {}
+    public UserLoginForm(String id, String pw) {
         this.id = id;
         this.pw = pw;
     }

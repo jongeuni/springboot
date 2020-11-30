@@ -1,4 +1,4 @@
-package com.dsm.board.repository;
+package com.dsm.board.utils.form;
 
 
 public class UserRepository{

@@ -1,15 +1,11 @@
 package com.dsm.board.service;
 
-import com.dsm.board.repository.UserLoginRepository;
 import io.jsonwebtoken.*;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-import java.io.UnsupportedEncodingException;
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JwtService {
 

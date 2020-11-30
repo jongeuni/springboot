@@ -1,15 +1,12 @@
 package com.dsm.board.controller;
-import com.dsm.board.repository.UserLoginRepository;
-import com.dsm.board.repository.UserRepository;
+import com.dsm.board.utils.form.UserLoginForm;
+import com.dsm.board.utils.form.UserRepository;
 import com.dsm.board.service.JwtService;
 import com.dsm.board.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 //로그인과 회원가입 시
@@ -70,7 +67,7 @@ public class UserController {
     // 로그인, 조회(select, read)
     @PostMapping("/login")
     @ResponseBody
-    public String UserLogin(@RequestBody UserLoginRepository userLoginInfo){
+    public String UserLogin(@RequestBody UserLoginForm userLoginInfo){
 
         //String check = us.loginSelect(userLoginInfo.getId(), userLoginInfo.getPw());
         String check = us.loginSelect(userLoginInfo);

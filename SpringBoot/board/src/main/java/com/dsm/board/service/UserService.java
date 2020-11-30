@@ -1,5 +1,5 @@
 package com.dsm.board.service;
-import com.dsm.board.repository.UserLoginRepository;
+import com.dsm.board.utils.form.UserLoginForm;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -81,15 +81,17 @@ public class UserService {
 
     // 아이디 찾기 return id
     public String findId(String pw){
+        System.out.println("pw : " + pw);
         String url="jdbc:mysql://localhost:3306/board?serverTimezone=UTC";
         String user="root";
         String password = "0818";
-        String sql = "SELECT id FROM user WHERE (pw) like (?)";
+        String sql = "SELECT id FROM user WHERE (pw) = (?)";
         try {
             conn=DriverManager.getConnection(url,user,password);
             pstmt=conn.prepareStatement(sql);
             pstmt.setString(1,pwEncrypt(pw));
             rs=pstmt.executeQuery();
+            System.out.println("rs is null : " + rs);
             if(rs.next()){
                 return rs.getString("id");
             } else{
@@ -148,7 +150,7 @@ public class UserService {
     // 비밀번호 재설정
 
     // 로그인, db에 정보 조회. id와 pw둘 다 맞으면 true 아니면 flase return
-    public String loginSelect(UserLoginRepository userLiginInfo) {
+    public String loginSelect(UserLoginForm userLiginInfo) {
         String url = "jdbc:mysql://localhost:3306/board?serverTimezone=UTC";
         String user = "root";
         String password = "0818";
