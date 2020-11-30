@@ -1,6 +1,7 @@
 package com.dsm.board.controller;
+import com.dsm.board.utils.form.PasswordRequestForm;
 import com.dsm.board.utils.form.UserLoginForm;
-import com.dsm.board.utils.form.UserRepository;
+import com.dsm.board.utils.form.UserForm;
 import com.dsm.board.service.JwtService;
 import com.dsm.board.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class UserController {
     // 회원가입, 생성(insert, create)
     @PostMapping("/join")
     @ResponseBody
-    public String UserInsert(@RequestBody UserRepository userinfo){
+    public String UserInsert(@RequestBody UserForm userinfo){
         if(userinfo.pwcheack.equals(userinfo.getPw())){
             if(us.JoinInsert(userinfo.getId(),userinfo.getPw(), userinfo.getName(),userinfo.getAge(), userinfo.getIntroduce())){ //만약 return 값이 flase면
                 return "회원 가입 성공";
@@ -45,10 +46,8 @@ public class UserController {
     // 로그인 전 아이디 찾기 (아이디 찾을 비밀번호 입력)
     @PostMapping("/findId")
     @ResponseBody
-    public String userFindId(@RequestBody String pw){
-
-        System.out.println(us.pwEncrypt(pw));
-        return us.findId(pw);
+    public String userFindId(@RequestBody PasswordRequestForm passwordRequestForm){
+        return us.findId(passwordRequestForm.getPassword());
     }
 
     // 비밀번호 재설정 전 계정 확인

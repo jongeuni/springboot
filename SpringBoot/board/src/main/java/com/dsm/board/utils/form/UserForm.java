@@ -1,7 +1,7 @@
 package com.dsm.board.utils.form;
 
 
-public class UserRepository{
+public class UserForm {
     private String id;
     private String pw;
     public String pwcheack;
