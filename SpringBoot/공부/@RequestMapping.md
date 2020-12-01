@@ -53,7 +53,7 @@ method = RequestMethod.GET는 메소드 설정이다.
 
   
 
-- @PathVarialble
+- @PathVariable
 
   ID를 그냥 URL에 포함시켜버리는거... RequestParam 에서 /acc?id=100으로 할걸 /acc/100으로 쓴다.
 
