@@ -27,6 +27,7 @@ public class UserService {
         String url = "jdbc:mysql://localhost/board?serverTimezone=UTC";
         String user = "root";
         String password = "0818";
+
         String sqlCheckId = "SELECT id FROM user where (id) like (?) OR (pw) like (?)";
         String sql = "INSERT INTO user (id, pw, name, age, introduce) VALUES (?,?,?,?,?)";
 
@@ -86,6 +87,7 @@ public class UserService {
         String user="root";
         String password = "0818";
         String sql = "SELECT id FROM user WHERE (pw) = (?)";
+
         try {
             conn=DriverManager.getConnection(url,user,password);
             pstmt=conn.prepareStatement(sql);
@@ -148,6 +150,43 @@ public class UserService {
     }
 
     // 비밀번호 재설정
+    // 비밀번홉 바꿀 계정이랑 바꿀 패스워드
+    public Boolean resetPw(String id, String changePw){
+        String url = "jdbc:mysql://localhost:3306/board?serverTimezone=UTC";
+        String user = "root";
+        String password = "0818";
+        String sqlPwredundancyCheck = "SELECT * FROM user WHERE (pw) = (?)";
+        String sql = "UPDATE user SET pw = ? WHERE id = ?"; // 아이 ㅜㅜ 디 ㅜㅜ 일치하는 계정에 패스워드 변경 ㅜ
+        try{
+            conn=DriverManager.getConnection(url,user,password);
+            pstmt=conn.prepareStatement(sqlPwredundancyCheck);
+            pstmt.setString(1,pwEncrypt(changePw));
+            rs=pstmt.executeQuery();
+            if(rs.next()){
+                System.out.println("중복되는 pw가 있음");
+                return false; // 패스워드가 중복됨.
+            } else{
+                pstmt=conn.prepareStatement(sql);
+                System.out.println(changePw+"   암호화된 PW: "+pwEncrypt(changePw));
+                pstmt.setString(1,pwEncrypt(changePw));
+                pstmt.setString(2,id);
+                pstmt.executeUpdate();
+                return true;
+            }
+        } catch(SQLException e ){
+            e.printStackTrace();
+            System.out.println("비밀번호 재설정 시 db 연결 오류");
+        } finally {
+            try{
+                if(conn!=null) conn.close();
+                if(pstmt!=null) pstmt.close();
+                if(rs!=null) rs.close();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 
     // 로그인, db에 정보 조회. id와 pw둘 다 맞으면 true 아니면 flase return
     public String loginSelect(UserLoginForm userLiginInfo) {

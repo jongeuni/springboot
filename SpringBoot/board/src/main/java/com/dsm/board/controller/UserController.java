@@ -63,6 +63,22 @@ public class UserController {
         }
     }
 
+    // 비밀번호 재설정
+    @PatchMapping("/resetPw")
+    @ResponseBody
+    public String resetPw(HttpServletRequest request, @RequestBody PasswordRequestForm changePw){
+        JwtService js = new JwtService();
+        String id=js.getIdFromToken(request.getHeader("Authorization"));
+        System.out.println(id); // 아이디 확인
+        System.out.println(changePw.getPassword()); //pw 확인
+
+        if(us.resetPw(id, changePw.getPassword())){
+            return "비밀번호가 변경되었습니다. 변경된 비밀번호를 사용해 로그인하세요.";
+        } else{
+            return "비밀번호 변경 실패";
+        }
+    }
+
     // 로그인, 조회(select, read)
     @PostMapping("/login")
     @ResponseBody
