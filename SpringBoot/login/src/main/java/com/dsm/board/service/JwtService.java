@@ -19,22 +19,6 @@ public class JwtService {
 
     // 토큰 생성
     public String creatJwt(final String id){
-
-        //System.out.println(signatureAlgorithm.getJcaName());
-        /*
-        // headers 설정
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("typ","JWT");
-        headers.put("alg","HS256");
-        // setHeader(headers) 하면 된다, setHeader은 한 번에 넣는 것
-
-        // payload 부분 설정
-        Map<String, Object> payloads = new HashMap<>();
-        payloads.put("data", "로그인 검증 토큰");
-        //setClaims(payloads)하면 된다
-         */
-
-
         String token = Jwts.builder()
                 .setHeaderParam("typ","JWT") // alg를 key에서 설정했을 경우 따로 넣어주지 않아도 된다
                 .claim("data", "로그인 검증 토큰") // 토큰에 대한 설명
@@ -45,14 +29,6 @@ public class JwtService {
 
         return token;
     }
-
-    // 토큰 유효성,만료 검증
-    /*
-    public Boolean verifyToken(String token){
-        Jwts.parser().setSigningKey(key).parse(token);
-        Jwts.parserBuilder().setSigningKey(key).build().parse(token);
-    }
-     */
 
     //토큰에서 id 추출
     public String getIdFromToken(String token) {

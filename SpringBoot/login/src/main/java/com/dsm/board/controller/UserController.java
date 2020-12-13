@@ -83,18 +83,9 @@ public class UserController {
     @PostMapping("/login")
     @ResponseBody
     public String UserLogin(@RequestBody UserLoginForm userLoginInfo){
-
-        //String check = us.loginSelect(userLoginInfo.getId(), userLoginInfo.getPw());
         String check = us.loginSelect(userLoginInfo);
 
         return check;
-        /*
-        ud.UserSelect(id, pw);
-        if(us.loginSelect(id, pw)){
-            return "로그인 완료";
-        } else{
-            return "로그인 실패";
-        }*/
     }
 
     //회원탈퇴
@@ -115,7 +106,6 @@ public class UserController {
             }
 
         String pwCheck = request.getHeader("pwCheck");
-        //String pwCheck = request.getParameter("pwCheck"); // 회원탈퇴시 받는 비밀번호  확인
 
         String MemberId = js.getIdFromToken(token); // 토큰에서 id 가져오기
         return us.userDelete(MemberId, pwCheck);

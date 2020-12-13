@@ -74,11 +74,6 @@ public class UserService {
         return true;
     }
 
-    // 비밀번호 재설정 먼저 아이디랑 이름값입력받고 일치하면 비밀번호 재설정
-    public String findPw(String id, String name){
-        return "비밀번호 재설정 페이지";
-    }
-    // 비밀번호 재설정
 
     // 아이디 찾기 return id
     public String findId(String pw){
@@ -156,7 +151,7 @@ public class UserService {
         String user = "root";
         String password = "0818";
         String sqlPwredundancyCheck = "SELECT * FROM user WHERE (pw) = (?)";
-        String sql = "UPDATE user SET pw = ? WHERE id = ?"; // 아이 ㅜㅜ 디 ㅜㅜ 일치하는 계정에 패스워드 변경 ㅜ
+        String sql = "UPDATE user SET pw = ? WHERE id = ?";
         try{
             conn=DriverManager.getConnection(url,user,password);
             pstmt=conn.prepareStatement(sqlPwredundancyCheck);
@@ -306,30 +301,5 @@ public class UserService {
             System.out.println("비밀번호 암호화 실패");
         }
         return encryptedPasswor;
-
-/*
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(pw.getBytes());
-        StringBuilder builder = new StringBuilder();
-        for(byte b:md.digest()){
-           builder.append(String.format("%02x",b));
-        }
-        return builder.toString();*/
-
-
-
-
-        /*
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(pw.getBytes());
-        StringBuilder builder = new StringBuilder();
-        for(byte b:md.digest()){
-            builder.append(String.format("%02x",b));
-        }
-        return builder.toString();
-
-         */
-
-
     }
 }
