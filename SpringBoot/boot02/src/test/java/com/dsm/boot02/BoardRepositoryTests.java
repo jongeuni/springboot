@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.event.annotation.BeforeTestMethod;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
@@ -55,7 +56,21 @@ public class BoardRepositoryTests {
         });
     }
 
-    /*
+
+
+    @Test
+    public void testUpdate(){
+        System.out.println("Read First...");
+        Board board = boardRepo.findById(1L).orElse(null); // 1번 게시물을 읽어들이는 과정, select
+
+        System.out.println("Update Title...");
+        board.setTitle("수정된 제목입니다");
+
+        System.out.println("Call save()...");
+        boardRepo.save(board); // select update
+    }
+
+   /*
     @BeforeEach
     public void testBeforeTest(){
         Board board = new Board();
