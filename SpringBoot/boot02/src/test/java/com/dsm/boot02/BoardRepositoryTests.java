@@ -63,11 +63,23 @@ public class BoardRepositoryTests {
         System.out.println("Read First...");
         Board board = boardRepo.findById(1L).orElse(null); // 1번 게시물을 읽어들이는 과정, select
 
-        System.out.println("Update Title...");
-        board.setTitle("수정된 제목입니다");
+        if(board==null){
+            System.out.println("비어있음");
+        } else{
+            System.out.println("Update Title...");
+            board.setTitle("수정된 제목입니다");
 
-        System.out.println("Call save()...");
-        boardRepo.save(board); // select update
+            System.out.println("Call save()...");
+            boardRepo.save(board); // select update
+        }
+
+    }
+
+    @Test
+    public void testDelete(){
+        System.out.println("DELETE Entity");
+
+        boardRepo.deleteById(2L);
     }
 
    /*
