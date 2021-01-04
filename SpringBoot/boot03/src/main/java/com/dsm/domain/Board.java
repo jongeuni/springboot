@@ -13,8 +13,10 @@ import java.sql.Timestamp;
 @Setter
 @ToString
 @Entity
-@Table(name="tbl_boards")
+//@Table
+@Table(name="tbl_boards") //주석의 확인되지 않은 데이터베이스 참조로 빨간줄이 그어지지만 잘 돌아간다.
 public class Board {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bno;
