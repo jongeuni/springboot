@@ -1,19 +1,18 @@
 package com.dsm.boot03;
 
-import com.dsm.persistence.BoardRepository;
+import com.dsm.boot03.persistence.BoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest //ExtendWith(SpringE)
 class Boot03ApplicationTests {
-	@Autowired
-	private BoardRepository ba;
 
-	/*
 	@Autowired
-	private BoardRepository repo;
+	private BoardRepository rnepo;
 
+
+/*
 	@Test
 	public void testInsert200(){
 		for(int i=1; i<=200; i++){
