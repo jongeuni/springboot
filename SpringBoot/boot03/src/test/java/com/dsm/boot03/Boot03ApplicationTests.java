@@ -1,5 +1,6 @@
 package com.dsm.boot03;
 
+import com.dsm.boot03.domain.Board;
 import com.dsm.boot03.persistence.BoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 class Boot03ApplicationTests {
 
 	@Autowired
-	private BoardRepository rnepo;
+	private BoardRepository repo;
 
 
-/*
-	@Test
+
+	/*@Test
 	public void testInsert200(){
 		for(int i=1; i<=200; i++){
 			Board board = new Board();
@@ -23,6 +24,13 @@ class Boot03ApplicationTests {
 			repo.save(board);
 		}
 	}*/
+
+	@Test
+	public void testByTitle(){
+		System.out.println("찾기전");
+		repo.findBoardByTitle("제목..177").forEach(board-> System.out.println(board)); // return 해 준 Board Entity 리스트를 하나씩 board에 담는 건가???
+		System.out.println("찾음");
+	}
 
 	@Test
 	void contextLoads() {
