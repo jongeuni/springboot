@@ -14,4 +14,9 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     // 작성자 이름에 ~가 들어가있는 게시글을 검색하려고 함
     public Collection<Board> findByWriterContaining(String writer);
+
+    public Collection<Board> findByTitleContainingOrContentContaining(String title, String content);
+
+    public Collection<Board> findByTitleContainingAndBnoGreaterThan(String keyword, Long num);
+
 }
