@@ -19,4 +19,7 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     public Collection<Board> findByTitleContainingAndBnoGreaterThan(String keyword, Long num);
 
+    // bno 가 특정 숫자보다 큰 것을 (부등호 처리) 역순 처리
+    public Collection<Board> findByBnoGreaterThanOrderByBnoDesc(Long bno);
+
 }
