@@ -54,7 +54,7 @@ class Boot03ApplicationTests {
 		results.forEach(board -> System.out.println(board));
 	}
 	 */
-
+/*
 	@Test
 	public void testByTitleAndBno(){
 		// 제목에 특정 문자가 포함되어 있고 게시물 번호가 특정 숫자보다 큰 데이터 조회
@@ -62,6 +62,11 @@ class Boot03ApplicationTests {
 
 		results.forEach(board -> System.out.println(board));
 
+	}*/
+	@Test
+	public void testBnoOrderBy(){
+		Collection<Board> results = repo.findByBnoGreaterThanOrderByBnoDesc(90L);
+		results.forEach(board -> System.out.println(board));
 	}
 
 	@Test
