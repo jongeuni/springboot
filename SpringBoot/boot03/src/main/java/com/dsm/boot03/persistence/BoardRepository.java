@@ -1,6 +1,8 @@
 package com.dsm.boot03.persistence;
 
 import com.dsm.boot03.domain.Board;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
@@ -21,5 +23,8 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     // bno 가 특정 숫자보다 큰 것을 (부등호 처리) 역순 처리
     public Collection<Board> findByBnoGreaterThanOrderByBnoDesc(Long bno);
+
+    public List<Board> findByBnoGreaterThanOrderByBnoDesc(Long bno, Pageable paging);
+
 
 }

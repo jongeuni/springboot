@@ -5,7 +5,9 @@ import com.dsm.boot03.persistence.BoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
 
+import java.awt.print.Pageable;
 import java.util.Collection;
 
 @SpringBootTest //ExtendWith(SpringE)
@@ -63,10 +65,20 @@ class Boot03ApplicationTests {
 		results.forEach(board -> System.out.println(board));
 
 	}*/
-	@Test
+	/*@Test
 	public void testBnoOrderBy(){
 		Collection<Board> results = repo.findByBnoGreaterThanOrderByBnoDesc(90L);
 		results.forEach(board -> System.out.println(board));
+	}*/
+
+	@Test
+	public void testBnoOrderByPaging(){
+
+		PageRequest paging = PageRequest.of(0, 10); //0번째 페이지에 10건의 데이터가 가져와짐
+		Collection<Board> results = repo.findByBnoGreaterThanOrderByBnoDesc(0L,paging);
+		results.forEach(board-> System.out.println(board));
+		//Pageable pagding =  PageRequest.of(0,10);
+
 	}
 
 	@Test
