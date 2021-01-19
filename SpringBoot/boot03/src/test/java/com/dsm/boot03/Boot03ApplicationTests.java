@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
-import java.awt.print.Pageable;
 import java.util.Collection;
 
 @SpringBootTest //ExtendWith(SpringE)
@@ -71,7 +72,7 @@ class Boot03ApplicationTests {
 		results.forEach(board -> System.out.println(board));
 	}*/
 
-	@Test
+	/*@Test
 	public void testBnoOrderByPaging(){
 
 		PageRequest paging = PageRequest.of(0, 10); //0번째 페이지에 10건의 데이터가 가져와짐
@@ -79,6 +80,13 @@ class Boot03ApplicationTests {
 		results.forEach(board-> System.out.println(board));
 		//Pageable pagding =  PageRequest.of(0,10);
 
+	}*/
+	@Test
+	public void testBnoPagingSort(){
+		Pageable paging = PageRequest.of(0,10, Sort.Direction.DESC,"bno");
+
+		Collection<Board> results = repo.findByBnoGreaterThan(0L,paging);
+		results.forEach(board -> System.out.println(board));
 	}
 
 	@Test
