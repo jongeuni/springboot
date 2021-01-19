@@ -26,7 +26,6 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     public List<Board> findByBnoGreaterThanOrderByBnoDesc(Long bno, Pageable paging);
 
-    public List<Board> findByBnoGreaterThan(Long bno, Pageable paging); //OrderBy 부분 없음, 정렬 조건 빠짐
-
+    public Page<Board> findByBnoGreaterThan(Long bno, Pageable paging); //OrderBy 부분 없음, 정렬 조건 빠짐
 
 }
