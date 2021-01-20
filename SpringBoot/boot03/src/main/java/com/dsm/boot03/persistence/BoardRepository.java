@@ -3,6 +3,7 @@ package com.dsm.boot03.persistence;
 import com.dsm.boot03.domain.Board;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Collection;
@@ -28,4 +29,6 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     public Page<Board> findByBnoGreaterThan(Long bno, Pageable paging); //OrderBy 부분 없음, 정렬 조건 빠짐
 
+    @Query("SELECT b FROM Board b WHERE b.title LIKE %?1% AND b.bno > 0 ORDER BY b.bno DESC")
+    public List<Board> findByTitle(String title);
 }

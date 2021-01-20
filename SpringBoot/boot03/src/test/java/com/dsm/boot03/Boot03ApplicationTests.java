@@ -83,6 +83,7 @@ class Boot03ApplicationTests {
 		//Pageable pagding =  PageRequest.of(0,10);
 
 	}*/
+	/*
 	@Test
 	public void testBnoPagingSort(){
 		Pageable paging = PageRequest.of(0,10, Sort.Direction.ASC,"bno");
@@ -96,6 +97,12 @@ class Boot03ApplicationTests {
 
 		List<Board> list = result.getContent();
 		list.forEach(board -> System.out.println(board));
+	}*/
+
+	@Test
+	public void testByTilte2(){
+		repo.findByTitle("17")
+				.forEach(board -> System.out.println(board));
 	}
 
 	@Test
