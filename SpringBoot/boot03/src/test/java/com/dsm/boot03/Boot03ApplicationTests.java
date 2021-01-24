@@ -99,12 +99,24 @@ class Boot03ApplicationTests {
 		list.forEach(board -> System.out.println(board));
 	}*/
 
+	/*
 	@Test
 	public void testByTilte2(){
 		repo.findByTitle("17")
 				.forEach(board -> System.out.println(board));
+	}*/
+
+	@Test
+	public void testByContent(){
+		repo.findByContent("170")
+				.forEach(board -> System.out.println(board));
 	}
 
+	@Test
+	public void testByWriter2(){
+		repo.findByWriter2("00")
+				.forEach(board -> System.out.println(board));
+	}
 	@Test
 	void contextLoads() {
 	}

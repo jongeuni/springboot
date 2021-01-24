@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,4 +32,12 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     @Query("SELECT b FROM Board b WHERE b.title LIKE %?1% AND b.bno > 0 ORDER BY b.bno DESC")
     public List<Board> findByTitle(String title);
+
+    // @Param 사용해서 컨텐츠 검색
+    @Query("SELECT c FROM Board c WHERE c.content LIKE %:content% AND c.bno > 0 ORDER BY c.bno DESC")
+    public List<Board> findByContent(@Param("content")String content);
+
+    // 엔티티 타입 자동 사용 #{#entityName}
+    @Query("SELECT b FROM #{#entityName} b WHERE b.writer LIKE %?1% AND b.bno >0 ORDER BY b.bno DESC")
+    List<Board> findByWriter2(String writer);
 }
