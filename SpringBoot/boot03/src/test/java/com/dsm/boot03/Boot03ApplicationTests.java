@@ -120,6 +120,7 @@ class Boot03ApplicationTests {
 				.forEach(board -> System.out.println(board));
 	}*/
 
+	/*
 	@Test
 	public void testByTitle17(){
 		repo.findByTitle2("17")
@@ -129,6 +130,14 @@ class Boot03ApplicationTests {
 	public void testByTitle18(){
 		repo.findByTitle3("18")
 				.forEach(arr-> System.out.println(arr));
+	}
+	*/
+
+	@Test
+	public void testByPaging(){
+		Pageable pageable = PageRequest.of(0,10);
+
+		repo.findBypage(pageable).forEach(board -> System.out.println(board));
 	}
 
 	@Test

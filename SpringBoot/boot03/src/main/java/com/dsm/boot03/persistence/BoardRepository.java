@@ -50,5 +50,7 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
     @Query("SELECT b FROM #{#entityName} b WHERE b.writer LIKE %?1% AND b.bno >0 ORDER BY b.bno DESC")
     List<Board> findByWriter2(String writer);
 
+    @Query("SELECT b FROM Board b where b.bno >0 ORDER BY b.bno DESC")
+    public List<Board> findBypage(Pageable pageable);
 
 }
