@@ -33,6 +33,15 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
     @Query("SELECT b FROM Board b WHERE b.title LIKE %?1% AND b.bno > 0 ORDER BY b.bno DESC")
     public List<Board> findByTitle(String title);
 
+    // 필요 칼럼만 추출
+    @Query("SELECT b.bno, b.title, b.writer, b.regdata"
+            +" FROM Board b WHERE b.title LIKE %?1% AND b.bno > 0 ORDER BY b.bno DESC")
+    public List<Object[]> findByTitle2(String title);
+
+    // nativeQuery
+    @Query(value="select writer from tbl_boards where title like CONCAT('%',?1,'%') and bno>0 order by bno desc", nativeQuery = true)
+    List<Object> findByTitle3(String title);
+
     // @Param 사용해서 컨텐츠 검색
     @Query("SELECT c FROM Board c WHERE c.content LIKE %:content% AND c.bno > 0 ORDER BY c.bno DESC")
     public List<Board> findByContent(@Param("content")String content);
@@ -40,4 +49,6 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
     // 엔티티 타입 자동 사용 #{#entityName}
     @Query("SELECT b FROM #{#entityName} b WHERE b.writer LIKE %?1% AND b.bno >0 ORDER BY b.bno DESC")
     List<Board> findByWriter2(String writer);
+
+
 }

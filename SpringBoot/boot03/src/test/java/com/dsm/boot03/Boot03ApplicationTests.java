@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -106,6 +107,7 @@ class Boot03ApplicationTests {
 				.forEach(board -> System.out.println(board));
 	}*/
 
+	/*
 	@Test
 	public void testByContent(){
 		repo.findByContent("170")
@@ -116,7 +118,19 @@ class Boot03ApplicationTests {
 	public void testByWriter2(){
 		repo.findByWriter2("00")
 				.forEach(board -> System.out.println(board));
+	}*/
+
+	@Test
+	public void testByTitle17(){
+		repo.findByTitle2("17")
+				.forEach(arr-> System.out.println(Arrays.toString(arr)));
 	}
+	@Test
+	public void testByTitle18(){
+		repo.findByTitle3("18")
+				.forEach(arr-> System.out.println(arr));
+	}
+
 	@Test
 	void contextLoads() {
 	}
