@@ -1,7 +1,9 @@
 package com.dsm.boot03;
 
 import com.dsm.boot03.domain.Board;
+import com.dsm.boot03.domain.QBoard;
 import com.dsm.boot03.persistence.BoardRepository;
+import com.querydsl.core.BooleanBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -133,12 +135,43 @@ class Boot03ApplicationTests {
 	}
 	*/
 
+	/*
 	@Test
 	public void testByPaging(){
 		Pageable pageable = PageRequest.of(0,10);
 
 		repo.findBypage(pageable).forEach(board -> System.out.println(board));
+	}*/
+
+	@Test
+	public void testPredicate(){
+		String type = "t";
+		String keyword = "17";
+
+		BooleanBuilder builder = new BooleanBuilder();
+
+		QBoard board = QBoard.board;
+
+		if(type.equals("t")){
+			builder.and(board.title.like("%"+keyword+"%"));
+		}
+
+		//bno>0
+		builder.and(board.bno.gt(0L));
+
+		Pageable pageable = PageRequest.of(0,10);
+
+		Page<Board> result = repo.findAll(builder,pageable);
+
+		System.out.println("PAGE SIZE: "+result.getSize());
+		System.out.println("TOTAL PAGES: "+result.getTotalPages());
+		System.out.println("TOTAL COUNT: "+result.getTotalElements());
+		System.out.println("NEXT: "+result.nextPageable());
+
+		List<Board> list = result.getContent();
+		list.forEach(b-> System.out.println(b));
 	}
+
 
 	@Test
 	void contextLoads() {
