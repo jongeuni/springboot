@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString(exclude = "member")
 @Entity
 @Table(name="tbl_profile")
-@EqualsAndHashCode(of="fro")
+@EqualsAndHashCode(of="fname")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
