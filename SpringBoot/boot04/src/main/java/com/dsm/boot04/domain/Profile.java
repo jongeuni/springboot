@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "member")
 @Entity
 @Table(name="tbl_profile")
 @EqualsAndHashCode(of="fro")
@@ -19,4 +19,7 @@ public class Profile {
     private Long fno;
     private String fname;
     private boolean current;
+
+    @ManyToOne //다대일관계
+    private Member member;
 }
