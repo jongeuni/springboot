@@ -1,6 +1,7 @@
 package com.dsm.boot04;
 
 import com.dsm.boot04.domain.Member;
+import com.dsm.boot04.domain.Profile;
 import com.dsm.boot04.persistence.MemberRepository;
 import com.dsm.boot04.persistence.ProfileRepository;
 import org.junit.jupiter.api.Test;
@@ -31,4 +32,33 @@ public class ProfileTests {
             memberRepository.save(member);
         });
     }
+
+    @Test
+    public void testInsertProfile(){
+        Member member = new Member();
+        member.setUid("user1");
+
+        for(int i=1; i<5; i++){
+            Profile profile01 = new Profile();
+            profile01.setFname("face"+i+".jpg");
+
+            if(i==1){
+                profile01.setCurrent(true);
+            }
+
+            profile01.setMember(member);
+
+            profileRepository.save(profile01);
+        }
+    }
+
+    @Test
+    public void testDeleteProfile(){
+
+        for(int i=5; i<=9; i++){
+            profileRepository.deleteById((long) i);
+        }
+
+    }
+
 }
