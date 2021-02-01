@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -33,6 +35,7 @@ public class ProfileTests {
         });
     }
 
+    /*
     @Test
     public void testInsertProfile(){
         Member member = new Member();
@@ -51,14 +54,21 @@ public class ProfileTests {
             profileRepository.save(profile01);
         }
     }
+    */
 
     @Test
-    public void testDeleteProfile(){
-
-        for(int i=5; i<=9; i++){
-            profileRepository.deleteById((long) i);
-        }
-
+    public void testFetchJoin1(){
+        List<Object[]> result = memberRepository.getMemberWithProfileCount("user1");
+        result.forEach(arr-> System.out.println(Arrays.toString(arr)));
     }
+
+    @Test
+    public void testFetchJoin2(){
+        List<Object[]> result = memberRepository.getMemberWithProfile("user1");
+
+        result.forEach(arr-> System.out.println(Arrays.toString(arr)));
+    }
+
+
 
 }
