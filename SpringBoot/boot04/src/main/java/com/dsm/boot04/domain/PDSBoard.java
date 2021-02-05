@@ -22,6 +22,8 @@ public class PDSBoard {
     private String pname;
     private String pwriter;
 
-    @OneToMany // 일대다
+    @OneToMany(cascade = CascadeType.ALL) // 영속성 전이 설정
+    @JoinColumn(name = "pdsno") // 존재하는 테이블에 컬럼 추가
     private List<PDSFile> files;
+
 }
