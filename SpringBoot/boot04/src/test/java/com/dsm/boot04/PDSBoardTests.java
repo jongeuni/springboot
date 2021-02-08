@@ -42,6 +42,7 @@ public class PDSBoardTests {
         repo.updatePDSFile(fno, newName);
     }*/
 
+    /*
     @Transactional
     @Test
     public void testUpdateFileName2(){
@@ -65,5 +66,12 @@ public class PDSBoardTests {
             }
             repo.save(pds);
         });
+    }*/
+
+    @Transactional
+    @Test
+    public void deletePDSFile(){
+        Long fno = 2L;
+        int count = repo.deletePDSFile(fno);
     }
 }

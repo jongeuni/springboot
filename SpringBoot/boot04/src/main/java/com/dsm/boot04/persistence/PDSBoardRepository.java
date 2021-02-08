@@ -13,4 +13,8 @@ public interface PDSBoardRepository extends CrudRepository<PDSBoard, Long> {
     @Modifying // @Query가 DML 작업을 처리할 수 있도록 (INSERT, UPDATE, DELETE)
     @Query("update PDSFile f set f.pdsfile = ?2 where f.fno = ?1")
     public void updatePDSFile(Long fno, String enwFileName);
+
+    @Modifying
+    @Query("DELETE FROM PDSFile  f WHERE f.fno =?1")
+    public int deletePDSFile(Long fno);
 }
