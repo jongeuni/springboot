@@ -9,9 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @SpringBootTest
 @Commit
@@ -67,11 +69,37 @@ public class PDSBoardTests {
             repo.save(pds);
         });
     }*/
-
+/*
     @Transactional
     @Test
     public void deletePDSFile(){
         Long fno = 2L;
         int count = repo.deletePDSFile(fno);
+    }*/
+
+    @Test
+    public void insertDummies(){
+        List<PDSBoard> list = new ArrayList<>();
+
+        IntStream.range(1, 100).forEach(i->{
+            PDSBoard pds = new PDSBoard();
+            pds.setPname("자료"+i);
+
+            PDSFile file1 = new PDSFile();
+            file1.setPdsfile("file1.doc");
+
+            PDSFile file2 = new PDSFile();
+            file2.setPdsfile("file2.doc");
+
+            pds.setFiles(Arrays.asList(file1,file2));
+
+            list.add(pds);
+        });
+        repo.saveAll(list);
+    }
+
+    @Test
+    public void viewSumary(){
+        repo.getSummary();
     }
 }

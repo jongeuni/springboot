@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface PDSBoardRepository extends CrudRepository<PDSBoard, Long> {
 
@@ -17,4 +18,7 @@ public interface PDSBoardRepository extends CrudRepository<PDSBoard, Long> {
     @Modifying
     @Query("DELETE FROM PDSFile  f WHERE f.fno =?1")
     public int deletePDSFile(Long fno);
+
+    @Query("select p, count(f) from PDSBoard p left outer join p.files f where p.pid >0 group by p order by p.pid desc")
+    public List<Object[]> getSummary();
 }
