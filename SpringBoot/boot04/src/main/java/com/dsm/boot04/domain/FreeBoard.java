@@ -14,7 +14,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "replies")
 @Entity
 @Table(name = "tbl_freeboards")
 @EqualsAndHashCode(of="bno")
@@ -27,7 +27,6 @@ public class FreeBoard {
     private String content;
 
     @CreationTimestamp //insert시 시간 자동 저장
-
     private Timestamp regdate;
     @UpdateTimestamp
     private Timestamp updatedate;
