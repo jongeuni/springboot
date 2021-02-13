@@ -31,6 +31,6 @@ public class FreeBoard {
     @UpdateTimestamp
     private Timestamp updatedate;
 
-    @OneToMany // 일대다관계
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.EAGER) // 게시물이 저장될 때 댓글이 같이 저장되도록/ 즉시로딩 사용
     private List<FreeBoardReply> replies;
 }
