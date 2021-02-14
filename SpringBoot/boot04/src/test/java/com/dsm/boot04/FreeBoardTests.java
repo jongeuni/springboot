@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -65,11 +66,11 @@ public class FreeBoardTests {
             boardRepo.save(board);
         });
     }*/
-/*
-    @Test // (단방향)
+
+    /*@Test // (단방향)
     public void insertReplyWay(){
         FreeBoard board = new FreeBoard();
-        board.setBno(199L);
+        board.setBno(398L);
 
         FreeBoardReply reply = new FreeBoardReply();
         reply.setReply("REPLY...............");
@@ -88,7 +89,7 @@ public class FreeBoardTests {
         });
     }*/
 
-    @Test // 오류있음
+    /*@Test
     public void testList2(){
         Pageable page = PageRequest.of(0,10,Sort.Direction.DESC, "bno");
 
@@ -97,6 +98,15 @@ public class FreeBoardTests {
             log.info(board.getBno()+": "+board.getTitle()+": "+board.getReplies().size()); // 댓글갯수
         });
 
+    }*/
+
+    @Test // @Query 이용 페이지 제목 + 댓글 수 가져오기
+    public void testList3(){
+        Pageable page = PageRequest.of(0,10,Sort.Direction.DESC, "bno");
+
+        boardRepo.getPage(page).forEach(arr->
+                log.info(Arrays.toString(arr))
+        );
     }
 
 }
