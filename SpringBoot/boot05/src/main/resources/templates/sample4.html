@@ -12,7 +12,10 @@
     </tr>
 
     <tr th:each="member:${list}">
-        <td th:text="${member.mid == target ? 'SECRET':member.mid}">Doe</td> <!--삼항연산자-->
+        <td th:if="${member.mid}"}>
+            <a href="modify" th:if="${member.mid==target}">MODIFY</a>
+            <p th:unless="${member.mid==target}">VIEW</p>
+        </td>
         <td th:text="${member.mname}"></td>
         <td th:text="${#dates.format(member.regdate,'yyyy-MM-dd')}"></td>
     </tr>
