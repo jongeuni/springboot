@@ -50,4 +50,26 @@ public class SampleController {
         }
         model.addAttribute("list",list);
     }
+
+    @GetMapping("/sample5")
+    public void sample5(Model model){
+        String result = "SUCCESS";
+        model.addAttribute("result",result);
+    }
+
+    @GetMapping("/sample6")
+    public void sample6(Model model){
+        List<MemberVO> list = new ArrayList<>();
+
+        for(int i=0; i<10; i++){
+            list.add(new MemberVO(i,"u0"+i,"p0"+i,"홍길동"+i,
+                    new Timestamp(System.currentTimeMillis())));
+        }
+
+        model.addAttribute("list",list);
+
+        String result = "SUCCESS";
+
+        model.addAttribute("result",result);
+    }
 }
