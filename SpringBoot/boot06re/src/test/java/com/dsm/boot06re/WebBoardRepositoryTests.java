@@ -36,7 +36,7 @@ public class WebBoardRepositoryTests {
         });
     }*/
 
-    @Test
+    /*@Test // 검색 조건이 없을 때
     public void testList1(){
         Pageable pageable = PageRequest.of(0,20, Sort.Direction.DESC, "bno");
 
@@ -46,5 +46,19 @@ public class WebBoardRepositoryTests {
 
         log.info("---------------");
         result.getContent().forEach(board->log.info(""+board));
+    }*/
+
+
+    @Test
+    public void testList2(){
+        Pageable pageble = PageRequest.of(0,20, Sort.Direction.DESC,"bno");
+
+        Page<WebBoard> result = repo.findAll(repo.makePredicate("t","10"),pageble); // title에 10 들어간 게시물
+
+        log.info("PAGE: "+result.getPageable());
+
+        log.info("--------------------------------");
+        result.getContent().forEach(board->
+                log.info(""+board));
     }
 }

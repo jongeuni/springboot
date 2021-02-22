@@ -18,6 +18,20 @@ public interface WebBoardRepository extends CrudRepository<WebBoard, Long>, Quer
         //bno>0
         builder.and(board.bno.gt(0));
 
-        return  builder;
+        if(type ==null){
+            return builder; // 검색 조건이 없을 때
+        }
+        // 검색 조건이 있을 때
+        switch(type){
+            case "t":
+                builder.and(board.title.like("%"+keyword+"%"));
+                break;
+            case "c":
+                builder.and(board.content.like("%"+keyword+"%"));
+            case "w":
+                builder.and(board.writer.like("%"+keyword+"%"));
+                break;
+        }
+        return builder;
     }
 }
