@@ -1,5 +1,6 @@
 package com.dsm.boot06re.controller;
 
+import com.dsm.boot06re.vo.PageVO;
 import lombok.extern.java.Log;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Log
 public class WebBoardController {
     @GetMapping("/list")
-    public void list(@PageableDefault(direction= Sort.Direction.DESC, sort="bno", size=10, page=0) Pageable page){
-        log.info("list() called..."+page);
+    public void list(PageVO vo){
+        Pageable page = vo.makePageable(0,"bno");
+        log.info(""+page);
     }
 
 
