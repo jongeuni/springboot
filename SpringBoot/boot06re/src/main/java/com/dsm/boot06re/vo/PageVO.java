@@ -13,7 +13,7 @@ public class PageVO {
     private int size;
 
     public PageVO(){
-        this.page = 1;
+        this.page = 1; // 페이지 번호 지정
         this.size = DEFAULT_SIZE;
     }
 
