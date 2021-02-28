@@ -6,7 +6,7 @@
     <div class="panel-heading">List Page</div>
     <div class="panel-body">
         <p>[[${result}]]</p>
-        <div>
+        <div th:with="result=${result.result}">
             <ul class = "list-group">
                 <li class = "list-group-item " th:each="board:${result.content}">[[${board}]]</li>
             </ul>

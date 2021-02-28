@@ -2,6 +2,7 @@ package com.dsm.boot06re.controller;
 
 import com.dsm.boot06re.domain.WebBoard;
 import com.dsm.boot06re.persistence.WebBoardRepository;
+import com.dsm.boot06re.vo.PageMaker;
 import com.dsm.boot06re.vo.PageVO;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ public class WebBoardController {
         log.info(""+page);
         log.info(""+result);
 
-        model.addAttribute("result",result);
+        log.info("TOTAL PAGE NUMBER: "+result.getTotalPages());
+
+        model.addAttribute("result",new PageMaker(result));
     }
 
 
