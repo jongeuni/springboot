@@ -33,14 +33,15 @@
                 </tr>
                 </tbody>
             </table>
+
             <div>
                 <select id='searchType'>
                     <option>--</option>
-                    <option value='t'>Title</option>
-                    <option value='c'>Content</option>
-                    <option value='w'>Writer</option>
+                    <option value='t' th:selected=" ${PageVO.type} =='t'" >Title</option>
+                    <option value='c' th:selected=" ${PageVO.type} =='c'">Content</option>
+                    <option value='w' th:selected=" ${PageVO.type} =='w'">Writer</option>
                 </select>
-                <input type='text' id='searchKeyword'>
+                <input type='text' id='searchKeyword' th:value=" ${PageVO.keyword}">
                 <button id='searchBtn'>Search</button>
             </div>
 
@@ -67,12 +68,17 @@
             </div>
         </nav>
 
+
+    </div>
+
     <form id='f1' th:action="@{list}" method="get">
         <input type='hidden' name='page' th:value=${result.currentPageNum}>
         <input type='hidden' name='size' th:value=${result.currentPage.pageSize}>
+        <input type='hidden' name='type' th:value=${PageVO.type}>
+        <input type='hidden' name='keyword' th:value=${PageVO.keyword}>
     </form>
 
-    </div>
+
 </div>
 <!--  end fragment -->
 
@@ -80,7 +86,17 @@
 
     <script th:inline="javascript">
 
+//        $(window).load(function(){
 
+  //          var msg = [[${msg}]];
+
+
+            //if(msg =='success') {
+    //            alert("정상적으로 처리되었습니다.");
+      //          var stateObj = { msg: "" };
+        //    }
+
+        //});-->
 
         $(document).ready(function() {
             var formObj = $("#f1");
@@ -93,8 +109,32 @@
 
                 formObj.submit();
             });
+<!--
+            $(".boardLink").click(function(e){
 
+                e.preventDefault();
 
+                var boardNo = $(this).attr("href");
+
+                formObj.attr("action",[[@{'/boards/view'}]]);
+                formObj.append("<input type='hidden' name='bno' value='" + boardNo +"'>" );
+
+                formObj.submit();
+
+            }); -->
+
+            $("#searchBtn").click(function(e){
+
+                var typeStr = $("#searchType").find(":selected").val();
+                var keywordStr = $("#searchKeyword").val();
+
+                console.log(typeStr, "" , keywordStr);
+
+                formObj.find("[name='type']").val(typeStr);
+                formObj.find("[name='keyword']").val(keywordStr);
+                formObj.find("[name='page']").val("1");
+                formObj.submit();
+            });
 
         });
     </script>
