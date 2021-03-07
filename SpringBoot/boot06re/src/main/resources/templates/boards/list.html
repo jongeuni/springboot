@@ -86,17 +86,17 @@
 
     <script th:inline="javascript">
 
-//        $(window).load(function(){
+        $(window).load(function(){
 
-  //          var msg = [[${msg}]];
+            var msg = [[${msg}]];
 
 
-            //if(msg =='success') {
-    //            alert("정상적으로 처리되었습니다.");
-      //          var stateObj = { msg: "" };
-        //    }
+            if(msg =='success') {
+                alert("정상적으로 처리되었습니다.");
+                var stateObj = { msg: "" };
+            }
 
-        //});-->
+        });
 
         $(document).ready(function() {
             var formObj = $("#f1");
@@ -109,19 +109,19 @@
 
                 formObj.submit();
             });
-<!--
+
             $(".boardLink").click(function(e){
 
                 e.preventDefault();
 
                 var boardNo = $(this).attr("href");
 
-                formObj.attr("action",[[@{'/boards/view'}]]);
+                formObj.attr("action", [[@{'/boards/view'}]]);
                 formObj.append("<input type='hidden' name='bno' value='" + boardNo +"'>" );
 
                 formObj.submit();
 
-            }); -->
+            });
 
             $("#searchBtn").click(function(e){
 
