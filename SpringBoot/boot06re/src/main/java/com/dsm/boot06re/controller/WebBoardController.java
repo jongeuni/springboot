@@ -36,7 +36,6 @@ public class WebBoardController {
         log.info(""+result);
 
         log.info("TOTAL PAGE NUMBER: "+result.getTotalPages());
-
         model.addAttribute("result",new PageMaker(result));
     }
 
@@ -53,6 +52,7 @@ public class WebBoardController {
         repo.save(vo);
         rttr.addFlashAttribute("msg","success");
 
+
         return "redirect:/boards/list";
     }
 
@@ -61,6 +61,29 @@ public class WebBoardController {
         log.info("BNO: "+bno);
 
         repo.findById(bno).ifPresent(board->model.addAttribute("vo",board));
+    }
+
+    @GetMapping("/modify")
+    public void modify(Long bno, @ModelAttribute("pageVO") PageVO vo, Model model){
+        log.info("MODIFY BNO: "+bno);
+
+        repo.findById(bno).ifPresent(board->model.addAttribute("vo",board));
+    }
+
+    @PostMapping("/delete")
+    public String delete(Long bno, PageVO vo, RedirectAttributes rttr){
+        log.info("DELETE BNO: "+bno);
+
+        repo.deleteById(bno);
+
+        rttr.addFlashAttribute("msg","success");
+
+        rttr.addAttribute("page",vo.getPage());
+        rttr.addAttribute("size",vo.getSize());
+        rttr.addAttribute("type",vo.getType());
+        rttr.addAttribute("keyword",vo.getKeyword());
+
+        return "redirect:/boards/list";
     }
 
 }
