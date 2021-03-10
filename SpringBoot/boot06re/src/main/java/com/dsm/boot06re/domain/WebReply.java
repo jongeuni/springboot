@@ -9,29 +9,27 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
-@Entity
 @Getter
 @Setter
-@Table(name ="tbl_webboards")
-@EqualsAndHashCode(of="bno")
-@ToString(exclude="replies")
-public class WebBoard {
+@Entity
+@Table(name="tbl_webreplies")
+@EqualsAndHashCode(of="rno")
+@ToString(exclude="board")
+public class WebReply {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bno;
-    private String title;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long rno;
 
-    private String writer;
+    private String replyText;
 
-    private String content;
+    private String replyer;
 
     @CreationTimestamp
     private Timestamp regdate;
     @UpdateTimestamp
     private Timestamp updatedate;
 
-    @OneToMany(mappedBy="board", fetch=FetchType.LAZY)
-    private List<WebReply> replies;
+    @ManyToOne(fetch=FetchType.LAZY)
+    private WebBoard board;
 }
