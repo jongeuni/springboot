@@ -1,5 +1,6 @@
 package com.dsm.boot06re.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,7 @@ public class WebReply {
     @UpdateTimestamp
     private Timestamp updatedate;
 
+    @JsonIgnore
     @ManyToOne(fetch=FetchType.LAZY)
     private WebBoard board;
 }
