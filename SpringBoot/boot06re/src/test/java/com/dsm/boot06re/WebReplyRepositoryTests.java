@@ -20,7 +20,7 @@ public class WebReplyRepositoryTests {
     @Autowired
     WebReplyRepository repo;
 
-    @Test //댓글 더미데이터 테스트 코드
+    /*@Test //댓글 더미데이터 테스트 코드
     public void testInsertReplies(){
         Long[] arr = {304L, 303L, 300L};
 
@@ -39,5 +39,5 @@ public class WebReplyRepositoryTests {
 
             });
         });
-    }
+    }*/
 }
