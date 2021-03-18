@@ -20,7 +20,7 @@ public class CustomRepositoryTests {
     @Autowired
     CustomCrudRepository repo;
 
-    /*@Test
+    @Test
     public void test1(){
         Pageable pageable = PageRequest.of(0,10, Sort.Direction.DESC,"bno");
 
@@ -36,7 +36,7 @@ public class CustomRepositoryTests {
         result.getContent().forEach(arr->{
             log.info(Arrays.toString(arr));
         });
-    }*/
+    }
 
     @Test
     public void testWriter(){
