@@ -16,11 +16,11 @@ public class SampleController {
     }
 
     @RequestMapping("/guest")
-    public void forGuset(){
+    public void forGuest(){
         log.info("guest");
     }
 
-    @RequestMapping("/menager")
+    @RequestMapping("/manager")
     public void forManager(){
         log.info("manager");
     }
