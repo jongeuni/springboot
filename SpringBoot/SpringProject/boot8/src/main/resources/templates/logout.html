@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Hello Spring Security</title>
+    <meta charset="utf-8" />
+</head>
+<body>
+<h2>CUSTOM LOGOUT PAGE</h2>
+
+<form method="post">
+    <h3>Logout</h3>
+    <input type="hidden" th:name="${_csrf.parameterName}"
+           th:value="${_csrf.token}"/>
+    <button type="submit" class="btn">LogOut</button>
+</form>

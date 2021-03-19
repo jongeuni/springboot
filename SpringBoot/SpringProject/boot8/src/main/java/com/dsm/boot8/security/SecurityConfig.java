@@ -22,6 +22,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin().loginPage("/login"); // 스프링 시큐리티에서 제공하는 기본 로그인 화면을 본다
         http.exceptionHandling().accessDeniedPage("/accessDenied");
+
+        //세션 무효화 (로그아웃 처리)
+        http.authorizeRequests().antMatchers("/logout/**").hasAnyRole("MANAGER","ADMIN"); // guest는 로그인 할 필요가없어서...
+        http.logout().logoutUrl("/logout").invalidateHttpSession(true);
     }
 
     @Autowired
