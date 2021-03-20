@@ -8,12 +8,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
 
 @Log
 @EnableWebSecurity // 정상적으로 bean으로 인식되도록
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    DataSource dataSource;
+
     @Autowired
     DsmUserService dsmUserService;
     //DataSource dataSource;
@@ -33,6 +38,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //세션 무효화 (로그아웃 처리)
         http.authorizeRequests().antMatchers("/logout/**").hasAnyRole("MANAGER","ADMIN"); // guest는 로그인 할 필요가없어서...
         http.logout().logoutUrl("/logout").invalidateHttpSession(true);
+
+        http.rememberMe().key("lje").userDetailsService(dsmUserService)
+        .tokenRepository(getJDBCRepository()).tokenValiditySeconds(60*60*24); // 쿠키생성
+    }
+
+    private PersistentTokenRepository getJDBCRepository(){
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+        repo.setDataSource(dataSource);
+        return repo;
     }
 /*
     @Autowired
