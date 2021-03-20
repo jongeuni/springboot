@@ -9,9 +9,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.sql.DataSource;
+
 @Log
 @EnableWebSecurity // 정상적으로 bean으로 인식되도록
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    DsmUserService dsmUserService;
+    //DataSource dataSource;
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         log.info("security config........................");
@@ -27,16 +34,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/logout/**").hasAnyRole("MANAGER","ADMIN"); // guest는 로그인 할 필요가없어서...
         http.logout().logoutUrl("/logout").invalidateHttpSession(true);
     }
-
+/*
     @Autowired
     public void configuredGlobal(AuthenticationManagerBuilder auth) throws Exception{
         log.info("build Auth global.........");
 
-        auth.inMemoryAuthentication()
-                .withUser("manager")
-                .password("1111")
-                .roles("MANAGER");
-    }
+        String query1="SELECT uid username, CONCAT('{noop}',upw) password, true enabled FROM tbl_members WHERE uid=?";
+
+        String query2 = "SELECT member uid, role_name role FROM tbl_member_roles WHERE member =?";
+
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery(query1)
+                .rolePrefix("ROLE_")
+                .authoritiesByUsernameQuery(query2);
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder(){
