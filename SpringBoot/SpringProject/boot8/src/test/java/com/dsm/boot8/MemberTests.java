@@ -7,10 +7,13 @@ import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -20,6 +23,8 @@ import java.util.Optional;
 public class MemberTests {
     @Autowired
     private MemberRepository repo;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
     @Test // 권한을 가진 사용자 추가
@@ -47,5 +52,16 @@ public class MemberTests {
     public void testRead(){
         Optional<Member> result = repo.findById("user85");
         result.ifPresent(member->log.info("member"+member));
+    }
+    @Test
+    public void testUpdate01dMember(){
+        List<String> ids = new ArrayList<>();
+        for(int i=0; i<=100; i++){
+            ids.add("user"+i);
+        }
+        repo.findAllById(ids).forEach(member -> {
+            member.setUpw(passwordEncoder.encode(member.getUpw()));
+            repo.save(member);
+        });
     }
 }
