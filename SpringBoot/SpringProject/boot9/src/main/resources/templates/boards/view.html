@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/layout/layout1}">
 
@@ -7,6 +8,7 @@
     <div class="panel-heading">View Page</div>
     <div class="panel-body">
 
+        <form th:action="${'/login'}"></form>
 
         <div class="form-group">
             <label>BNO</label> <input class="form-control" name="bno"
@@ -36,7 +38,11 @@
                                           readonly="readonly" />
         </div>
 
-        <div class="pull-right">
+        <div class="pull-right"
+             th:with="uid =${#authentication.principal} eq 'anonymousUser'? null :${#authentication.principal.member.uid} ">
+            <!-- 			<h5>[[${#authentication.principal}]]</h5>
+                        <h5>[[${uid} ]]</h5>
+                        <h5>[[${uid} != null]]</h5> -->
             <a
                     th:href="@{ modify(page=${pageVO.page},
 			                size=${pageVO.size},
@@ -44,14 +50,17 @@
 			                keyword=${pageVO.keyword},
 			                bno =${vo.bno}
 			             )}"
-                    class="btn btn-default">Modify/Delete</a> <a
-                th:href="@{ list(page=${pageVO.page},
+                    class="btn btn-default" id='goModBtn'>Modify/Delete</a>
+
+
+
+            <a th:href="@{ list(page=${pageVO.page},
 			                size=${pageVO.size},
 			                type=${pageVO.type},
 			                keyword=${pageVO.keyword},
 			                bno = ${vo.bno}
 			             )}"
-                class="btn btn-primary">Go List</a>
+               class="btn btn-primary">Go List</a>
         </div>
 
     </div>
@@ -92,7 +101,7 @@
                     <input type="text" class="form-control" name='replyText'>
 
                     <label>Replyer</label>
-                    <input type="text" class="form-control" name='replyer'>
+                    <input type="text" class="form-control" name='replyer' readonly="readonly">
                 </div>
                 <div class="modal-footer">
                     <button id='delModalBtn'class="btn btn-danger">Delete</button>
@@ -124,19 +133,57 @@
 
             var rno;
 
+            var uid =[[${#authentication.principal} eq 'anonymousUser'? null :${#authentication.principal.member.uid}]] ;
+
+
+            var csrf = JSON.parse('[[${_csrf}]]');
+
+
             $("#addReplyBtn").on('click', function(){
 
-                $("#myModal").modal("show");
-                $(".modal-title").text("Add Reply");
+                if(uid == null){
+                    if(confirm("로그인 할까요?")){
+                        self.location = [[@{/login}]]+"?dest=" + encodeURIComponent(self.location);
+                    }
+                        return;
+                    }
 
-                $("#delModalBtn").hide();
+                    replyerObj.val(uid);
 
-                mode= "ADD";
+                    $("#myModal").modal("show");
+                    $(".modal-title").text("Add Reply");
+
+                    $("#delModalBtn").hide();
+
+                    mode= "ADD";
+                });
+
+
+
+            $("#goModBtn").click(function(e){
+
+                e.preventDefault();
+
+                if(uid == null){
+                    if(confirm("로그인 할까요?")){
+                        //self.location = [[@{/login}]];
+                        self.location = $(this).attr("href");
+                    }
+                }else {
+
+                    if(uid == [[${vo.writer}]]){
+                        self.location = $(this).attr('href');
+                    }else {
+                        alert("작성자만이 수정이나 삭제할 수 있습니다.");
+                    }
+                }
             });
+
+
 
             $("#delModalBtn").on("click", function(){
 
-                var obj = {bno:bno, rno:rno};
+                var obj = {bno:bno, rno:rno, csrf:csrf};
 
                 replyManager.remove(obj, function(list){
 
@@ -162,6 +209,20 @@
                 $("#myModal").modal("show");
                 $(".modal-title").text("Modiy/Delete Reply");
 
+                console.log("==================");
+                console.log(uid);
+                console.log(tds[2].innerHTML);
+
+                console.log(uid == tds[2].innerHTML);
+
+                if(uid != tds[2].innerHTML.trim() ){
+
+                    $("#delModalBtn").hide();
+                    $("#modalBtn").hide();
+
+                }
+
+
             });
 
             function afterAll(list){
@@ -179,7 +240,13 @@
 
                 if(mode =='ADD'){
 
-                    var obj = {replyText:replyText, replyer: replyer, bno:bno};
+                    var obj = {
+                        replyText:replyText,
+                        replyer: replyer,
+                        bno:bno,
+                        csrf:csrf
+                    };
+
 
                     //console.log(obj);
 
@@ -190,7 +257,7 @@
 
                 }else if(mode='MOD'){
 
-                    var obj = {replyText:replyText, bno:bno, rno:rno};
+                    var obj = {replyText:replyText, bno:bno, rno:rno, csrf:csrf};
 
 
                     replyManager.update(obj, function(list){
@@ -204,13 +271,14 @@
             });
 
             (function getAllReplies(){
-
                 //load replies
                 replyManager.getAll([[${vo.bno}]], printList);
             })();
 
 
             function printList(list){
+
+
                 var str = "";
                 var replyObj;
                 for(var i = 0; i < list.length; i++){

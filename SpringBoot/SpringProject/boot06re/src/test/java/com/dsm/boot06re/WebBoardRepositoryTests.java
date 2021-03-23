@@ -23,7 +23,7 @@ public class WebBoardRepositoryTests {
     @Autowired
     WebBoardRepository repo;
 
-    /*@Test // 더미 데이터 추가
+    @Test // 더미 데이터 추가
     public void insertBoardDummies(){
         IntStream.range(0,300).forEach(i->{
             WebBoard board = new WebBoard();
@@ -34,7 +34,7 @@ public class WebBoardRepositoryTests {
 
             repo.save(board);
         });
-    }*/
+    }
 
     /*@Test // 검색 조건이 없을 때
     public void testList1(){

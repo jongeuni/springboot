@@ -30,9 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         log.info("security config........................");
 
-        http.authorizeRequests().antMatchers("/guest/**").permitAll();
-        http.authorizeRequests().antMatchers("/manager/**").hasRole("MANAGER");
-        http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN");
+        http.authorizeRequests().antMatchers("/boards/list").permitAll().antMatchers("/boards/register").hasAnyRole("BASIC", "MANAGER", "ADMIN");
+
 
         http.formLogin().loginPage("/login"); // 스프링 시큐리티에서 제공하는 기본 로그인 화면을 본다
         http.exceptionHandling().accessDeniedPage("/accessDenied");
