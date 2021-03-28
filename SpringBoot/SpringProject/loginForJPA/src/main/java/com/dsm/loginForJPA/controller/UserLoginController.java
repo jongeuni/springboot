@@ -3,6 +3,8 @@ package com.dsm.loginForJPA.controller;
 import com.dsm.loginForJPA.domain.dto.UserLoginDto;
 import com.dsm.loginForJPA.domain.entity.UserEntity;
 import com.dsm.loginForJPA.domain.repository.UserLoginRepository;
+import com.dsm.loginForJPA.service.LoginService;
+import com.dsm.loginForJPA.service.UserService;
 import com.dsm.loginForJPA.vo.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,20 +18,12 @@ import javax.servlet.http.HttpSession;
 public class UserLoginController {
     @Autowired
     UserLoginRepository userLoginRepository;
+    @Autowired
+    LoginService ls;
     @GetMapping("/loginUser")
     public String loginUser(@RequestBody UserEntity user, HttpServletRequest request){
 
-        System.out.println(user.getId());
-        if (userLoginRepository.findByIdAndPw(user.getId(),user.getPw())==null){
-            return "일치하는 사용자 없음";
-        }
-       HttpSession session = request.getSession(true); // 세션 선언
-        session.setAttribute("USER", user.getId()); // 세션 값 등록
-        System.out.println(session);
-
-        // 세션 이용...
-
-        return "로그인 성공";
+        return ls.loginUser(user, request);
 
     }
 
