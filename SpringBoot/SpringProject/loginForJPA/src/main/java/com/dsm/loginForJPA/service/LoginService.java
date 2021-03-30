@@ -15,14 +15,18 @@ public class LoginService {
 
     public String loginUser(UserEntity user, HttpServletRequest request){
 
-        System.out.println(user.getId());
+        HasingService hs = new HasingService();
 
-        if (userLoginRepository.findByIdAndPw(user.getId(),user.getPw())==null){
+        String hpw = hs.pwEncrypt(user.getPw()); // 암호화
+        UserEntity ue = userLoginRepository.findByIdAndPw(user.getId(),hpw);
+        if (ue==null){
             return "일치하는 사용자 없음";
         }
 
         HttpSession session = request.getSession(true); // 세션 선언
-        session.setAttribute("USER", user.getId()); // 세션 값 등록
+        System.out.println("number  "+ ue.getNumber());
+        session.setAttribute("user_num", ue.getNumber()); // 세션 값 등록
+        session.setMaxInactiveInterval(60*60); // 60분동안 세션을 유지하고 싶다면, 60 * 60으로 설정
         System.out.println(session);
 
         return "로그인 성공";
