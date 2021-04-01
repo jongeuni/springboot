@@ -1,5 +1,6 @@
 package com.dsm.loginForJPA.service;
 
+import com.dsm.loginForJPA.domain.dto.UserLoginDto;
 import com.dsm.loginForJPA.domain.entity.UserEntity;
 import com.dsm.loginForJPA.domain.repository.UserLoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,16 @@ public class LoginService {
     @Autowired
     UserLoginRepository userLoginRepository;
 
-    public String loginUser(UserEntity user, HttpServletRequest request){
+    public String loginUser(UserLoginDto user, HttpServletRequest request){
 
         HasingService hs = new HasingService();
+        System.out.println(user);
 
         String hpw = hs.pwEncrypt(user.getPw()); // 암호화
+        System.out.println("암호회된 pw "+hpw);
+
         UserEntity ue = userLoginRepository.findByIdAndPw(user.getId(),hpw);
+        System.out.println(ue+ "     "+user.getId());
         if (ue==null){
             return "일치하는 사용자 없음";
         }

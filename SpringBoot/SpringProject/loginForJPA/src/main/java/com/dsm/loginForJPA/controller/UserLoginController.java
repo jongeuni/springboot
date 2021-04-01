@@ -4,10 +4,9 @@ import com.dsm.loginForJPA.domain.dto.UserLoginDto;
 import com.dsm.loginForJPA.domain.entity.UserEntity;
 import com.dsm.loginForJPA.domain.repository.UserLoginRepository;
 import com.dsm.loginForJPA.service.LoginService;
-import com.dsm.loginForJPA.service.UserService;
-import com.dsm.loginForJPA.vo.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,10 +19,10 @@ public class UserLoginController {
     UserLoginRepository userLoginRepository;
     @Autowired
     LoginService ls;
-    @GetMapping("/loginUser")
-    public String loginUser(@RequestBody UserEntity user, HttpServletRequest request){
+    @PostMapping("/loginUser")
+    public String loginUser(@RequestBody UserLoginDto userLogin, HttpServletRequest request){
 
-        return ls.loginUser(user, request);
+        return ls.loginUser(userLogin, request);
 
     }
 
