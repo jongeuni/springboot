@@ -16,4 +16,8 @@ public interface MemberRepository extends CrudRepository<UserEntity, Integer> {
     @Modifying // select 문이 아님을 나타낸다
     @Query(value = "UPDATE user_info u set u.u_pw = :pw where u.u_num = :number", nativeQuery = true)
     void changePw(@Param("pw")String pw, @Param("number")int number) throws Exception;
+
+    // @Modifying
+    @Transactional
+    void deleteByNumber(int num);
 }
