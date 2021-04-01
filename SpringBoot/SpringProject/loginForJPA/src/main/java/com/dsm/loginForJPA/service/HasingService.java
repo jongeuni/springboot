@@ -1,8 +1,11 @@
 package com.dsm.loginForJPA.service;
 
+import org.springframework.stereotype.Service;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@Service
 public class HasingService {
     // 비밀번호 암호화
     public String pwEncrypt(String pw){

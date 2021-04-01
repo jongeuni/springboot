@@ -3,7 +3,6 @@ package com.dsm.loginForJPA.controller;
 import com.dsm.loginForJPA.service.UserService;
 import com.dsm.loginForJPA.domain.entity.UserEntity;
 import com.dsm.loginForJPA.domain.repository.UserRepository;
-import com.dsm.loginForJPA.vo.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
