@@ -1,5 +1,6 @@
 package com.dsm.image00.controller;
 
+import com.dsm.image00.domain.Object.TestFile;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,27 @@ public class FileTestController {
             System.out.println("내용 빔");
         }
         return "success - upload02";
+
+    }
+
+    @PostMapping("/upload03")
+    public String upload03(TestFile p_file){
+        MultipartFile file = p_file.getFile();
+        System.out.println(p_file.getName());
+
+        System.out.println(file.getName());
+        System.out.println(file.getSize());
+        System.out.println(file.getOriginalFilename());
+
+        try {
+            byte[] data = file.getBytes();
+            System.out.println(Arrays.toString(data));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("파일 내용 빔");
+        }
+
+        return "success-upload3";
 
     }
 }
