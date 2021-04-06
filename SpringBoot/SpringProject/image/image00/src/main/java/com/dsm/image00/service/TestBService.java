@@ -4,13 +4,17 @@ import com.dsm.image00.domain.FilesEntity;
 import com.dsm.image00.repository.FilesRepository;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
@@ -23,7 +27,6 @@ public class TestBService {
     private final String uploadPath = Paths.get("D:", "imagePr").toString();
 
     // 랜덤 문자열
-
     private final String getRandomString(){
         return UUID.randomUUID().toString().replaceAll("-","");
     }
@@ -59,5 +62,32 @@ public class TestBService {
         }
 
         return new ResponseEntity("파일 업로드 완료.",HttpStatus.OK);
+    }
+
+    public ResponseEntity<Resource> downloadFile(int num, HttpServletRequest request) throws MalformedURLException {
+        FilesEntity fileEntity = filesRepository.findByFno(num);
+
+        Path filePath = Paths.get(fileEntity.getFileurl()).normalize();
+
+            Resource resource = new UrlResource(filePath.toUri());
+
+
+        String contentType = null;
+        try{
+            contentType = request.getServletContext().getMimeType(
+                    resource.getFile().getAbsolutePath()
+            );
+        }catch(IOException e){
+            contentType = "applicatoin/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(
+                        HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\""+fileEntity.getFilename()+"\""
+                )
+                .body(resource);
+
     }
 }
