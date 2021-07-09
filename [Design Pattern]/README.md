@@ -3,7 +3,7 @@
 - [디자인 패턴](#디자인-패턴)
   - [디자인 패턴을 공부하는 법](#디자인-패턴을-공부하는-법)
   - 생성패턴
-    - [Singleton Patton](./create-pattern/singleton.md)
+    - [Singleton Pattern](./create-pattern/singleton.md)
 
 <br>
 
