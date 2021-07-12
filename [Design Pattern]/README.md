@@ -3,9 +3,10 @@
 - [디자인 패턴](#디자인-패턴)
   - [디자인 패턴을 공부하는 법](#디자인-패턴을-공부하는-법)
   - 생성패턴
-    - [Singleton Pattern](./create-pattern/singleton.md)
+    - [Singleton Pattern](../create-pattern/singleton.md)
   - 행동 패턴
     * [Strategy](./behavioral-pattern/strategy.md)
+    * [Template Method](./Behavioral-Pattern/Template-Method.md)
 
 <br>
 
