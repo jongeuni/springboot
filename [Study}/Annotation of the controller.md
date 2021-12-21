@@ -22,11 +22,11 @@
 | ------ | ----------------- | ----------- |
 | return | json / text / xml | view        |
 
-**`@Controller` **어노테이션은 해당 클래스가 **Controller라는 것을 명시**하고 **Bean으로 등록**해준다. View를 리턴해야 하는 경우 사용한다. (MVC) 
+**`@Controller`** 애노테이션은 해당 클래스가 **Controller라는 것을 명시**하고 **Bean으로 등록**해준다. View를 리턴해야 하는 경우 사용한다. (MVC) 
 
 그러나 **Rest API**로 사용하는 경우는 View를 리턴해주지 않는다. data를 리턴해주기 때문에 @Controller를 사용한다면 data로 리턴할 메서드 앞에 `@RespnseBody`를 붙여주어야한다. 
 
-이런 수고를 덜기 위한 어노테이션이 **`@RestController`**이다. `@RestController`는 View가 필요 없는 API를 지원할 때 사용한다. data(json, xml...)을 리턴한다. **Restful한 API**를 만들기 위한 어노테이션이라고 할 수 있다.
+이런 수고를 덜기 위한 어노테이션이 **`@RestController`** 이다. `@RestController`는 View가 필요 없는 API를 지원할 때 사용한다. data(json, xml...)을 리턴한다. **Restful한 API**를 만들기 위한 어노테이션이라고 할 수 있다.
 
 <br>
 
@@ -34,7 +34,7 @@
 
 ## @RequestMapping
 
-매핑이란 해당 값이 다른 값을 가리키도록 하는 것이다. **`@RequestMapping`**은 URL을 컨트롤러의 클래스나 메서드로 매핑할 때 (연결시킬 때) 사용하는 어노테이션이다. 
+매핑이란 해당 값이 다른 값을 가리키도록 하는 것이다. **`@RequestMapping`** 은 URL을 컨트롤러의 클래스나 메서드로 매핑할 때 (연결시킬 때) 사용하는 어노테이션이다. 
 
 그러니까 클라이언트가 URL로 요청을 전송하면, 요청된 **URL을 어떤 메소드가 처리할지 여부를 결정하는 것**이 리퀘스트 매핑이다. 
 
